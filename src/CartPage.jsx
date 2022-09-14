@@ -1,10 +1,16 @@
 import React from "react";
 import allData from "./DummyData";
 import CartList from "./CartList";
+import { HiArrowLeft } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 function CartPage() {
   return (
     <div className="px-2 mx-auto bg-white md:max-w-6xl md:px-12 md:my-12 md:py-9">
+      <Link className="ml-2 text-xl text-gray-500" to="/">
+        <HiArrowLeft />
+        Home
+      </Link>
       <div className="flex-col items-center justify-between hidden px-4 mx-auto font-bold border bg-gray-50 md:flex md:h-12 md:max-w-5xl md:flex-row border-gray-default">
         <span className="md:w-16 bg-primary-default"></span>
         <span className="hidden bg-primary-default w-28 md:block"></span>

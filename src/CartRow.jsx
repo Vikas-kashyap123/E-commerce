@@ -1,23 +1,23 @@
 import React from "react";
-import { GiBoomerangCross } from "react-icons/Gi";
-
-// import { IoCutSharp } from "react-icons/Io";
-
+// import { GiBoomerangCross } from "react-icons/gi";
+{
+  /* <GiBoomerangCross />; */
+}
 function CartRow({ imgUrl, title, price }) {
   return (
     <div className="flex-col items-center justify-between max-w-5xl px-4 py-2 mx-auto my-2 font-bold bg-white md:border md:flex md:flex-row border-gray-default">
       <div className="flex items-center justify-between h-10 px-2 border border-gray-default md:border-white">
         <span></span>
-        <div className="text-gray-500 md:w-16 hover:text-primary-dark">
-          <GiBoomerangCross />
-        </div>
+        <div className="text-gray-500 md:w-16 hover:text-primary-dark">x</div>
       </div>
-      <div className="flex items-center w-14 h-14 sm:hidden md:block">
+      <div className="flex items-center w-14 h-14 md:mr-16 sm:hidden md:block">
         <img className="w-full h-full " src={imgUrl} />
       </div>
       <div className="flex items-center justify-between h-10 px-2 border border-gray-default md:border-white ">
         <h1 className=" md:hidden">Product</h1>
-        <h1 className="max-w-32 md:w-72 text-primary-default">{title}</h1>
+        <h1 className="max-w-32 md:w-72 text-primary-default md:mr-4">
+          {title}
+        </h1>
       </div>
       <div className="flex items-center justify-between h-10 px-2 border border-gray-default md:border-white">
         <h1 className=" md:hidden">price</h1>

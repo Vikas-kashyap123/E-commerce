@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 function NoMatching({ children }) {
   useEffect(function () {}, []);
   return (
-    <div className="p-2 text-2xl text-white bg-primary-default">
-      No Matching results found
+    <div className="flex items-center justify-center ">
+      <img src="https://quoramarketing.com/wp-content/uploads/2020/08/Fall-Guys-No-Match-Found-Error.jpg" />
     </div>
   );
 }
