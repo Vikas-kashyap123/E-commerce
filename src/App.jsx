@@ -13,7 +13,6 @@ function App() {
   const savedData = JSON.parse(savedDataString);
 
   console.log("savedData", savedData);
-
   const [cart, setCart] = useState(savedData);
 
   function handleCartChange(productId, count) {
@@ -39,7 +38,7 @@ function App() {
             element={<Details onAddToCart={handleCartChange} />}
           />
           <Route path="*" element={<NotFound />} />
-          <Route path="/cart" element={<CartPage cartId={savedData} />} />
+          <Route path="/cart" element={<CartPage cartData={savedData} />} />
         </Routes>
       </div>
       <Footer />

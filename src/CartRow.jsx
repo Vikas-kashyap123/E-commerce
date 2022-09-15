@@ -3,7 +3,7 @@ import React from "react";
 {
   /* <GiBoomerangCross />; */
 }
-function CartRow({ imgUrl, title, price }) {
+function CartRow({ thumbnail, title, price }) {
   return (
     <div className="flex-col items-center justify-between max-w-5xl px-4 py-2 mx-auto my-2 font-bold bg-white md:border md:flex md:flex-row border-gray-default">
       <div className="flex items-center justify-between h-10 px-2 border border-gray-default md:border-white">
@@ -11,7 +11,7 @@ function CartRow({ imgUrl, title, price }) {
         <div className="text-gray-500 md:w-16 hover:text-primary-dark">x</div>
       </div>
       <div className="flex items-center w-14 h-14 md:mr-16 sm:hidden md:block">
-        <img className="w-full h-full " src={imgUrl} />
+        <img className="w-full h-full " src={thumbnail} />
       </div>
       <div className="flex items-center justify-between h-10 px-2 border border-gray-default md:border-white ">
         <h1 className=" md:hidden">Product</h1>

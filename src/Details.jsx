@@ -36,8 +36,6 @@ function Details({ onAddToCart }) {
     setCount(1);
   }
 
-  console.log("product found", product);
-
   if (loading) {
     return <Loading />;
   }
@@ -103,6 +101,7 @@ function Details({ onAddToCart }) {
             </Link>
           )}
         </div>
+
         <div>
           {id < 100 && (
             <Link

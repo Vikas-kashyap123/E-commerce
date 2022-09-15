@@ -1,10 +1,31 @@
-import React from "react";
-import allData from "./DummyData";
+import React, { useState } from "react";
 import CartList from "./CartList";
 import { HiArrowLeft } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { getProductData } from "./Api";
+import Loading from "./Loading";
 
-function CartPage() {
+function CartPage({ cartData }) {
+  const [products, setProducts] = useState();
+  const [loading, setLoading] = useState(true);
+  const id = +useParams().id;
+
+  const promises = Object.keys(cartData).map(function (productId) {
+    return getProductData(productId);
+  });
+
+  const bigPromise = Promise.all(promises);
+
+  bigPromise.then(function (products) {
+    console.log("promises ka data", products);
+    setProducts(products);
+    setLoading(false);
+  });
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="px-2 mx-auto bg-white md:max-w-6xl md:px-12 md:my-12 md:py-9">
       <Link className="ml-2 text-xl text-gray-500" to="/">
@@ -19,7 +40,7 @@ function CartPage() {
         <h2 className=" md:w-28">Quantity</h2>
         <h2 className="md:w-28">subtotal</h2>
       </div>
-      <CartList items={allData} />
+      <CartList items={products} />
       <div className="flex justify-between">
         <div>
           <input
@@ -43,6 +64,7 @@ function CartPage() {
             <h1 className="mx-2 font-bold text-md">subtotal</h1>
             <h1 className="md:w-40">Rs.500</h1>
           </div>
+
           <div className="flex justify-between h-12 border border-gray-400">
             <h1 className="mx-2 font-bold text-md">Total</h1>
             <h1 className="md:w-40">Rs.500</h1>
