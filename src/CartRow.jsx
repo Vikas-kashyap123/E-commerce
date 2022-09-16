@@ -1,4 +1,6 @@
 import React from "react";
+
+function CartRow({ thumbnail, title, price }) {
 import { GiBoomerangCross } from "react-icons/gi";
 
 function CartRow({ imgUrl, title, price }) {
@@ -11,7 +13,7 @@ function CartRow({ imgUrl, title, price }) {
         </div>
       </div>
       <div className="flex items-center w-14 h-14 md:mr-16 sm:hidden md:block">
-        <img className="w-full h-full " src={imgUrl} />
+        <img className="w-full h-full " src={thumbnail} />
       </div>
       <div className="flex items-center justify-between h-10 px-2 border border-gray-default md:border-white ">
         <h1 className=" md:hidden">Product</h1>
