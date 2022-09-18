@@ -5,7 +5,6 @@ import NoMatching from "./NoMatching";
 import Loading from "./Loading";
 import { HiArrowNarrowRight } from "react-icons/hi";
 
-
 function ProductPage() {
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
