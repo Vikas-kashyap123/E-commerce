@@ -91,15 +91,22 @@ function LoginPage() {
           <div className="flex flex-row ">
             <div className="mt-3">
               <h1 className="text-sm font-bold text-gray-light">Remember me</h1>
-              <Button type="submit" disabled={!isValid}>
-                LOG IN
-              </Button>
-              <Link className="pt-4 text-md text-primary-default" to="/forgot">
-                Lost Your Password?
-              </Link>
+              <div className="flex flex-col">
+                <Button type="submit" disabled={!isValid}>
+                  LOG IN
+                </Button>
+                <Link
+                  className="pt-4 md:text-md text-sm font-black text-primary-default"
+                  to="/forgot"
+                >
+                  Lost Your Password?
+                </Link>
+              </div>
             </div>
-            <div className="mt-1 ml-5 text-gray-light">
-              <h1 className="text-md">Signup if you dont have an account</h1>
+            <div className="mt-1 ml-5 text-gray-light ">
+              <h1 className="md:text-md text-sm font-black">
+                Signup if you dont have an account
+              </h1>
               <Link
                 className="max-w-xs px-8 py-2 text-sm font-bold text-white rounded-md
                  bg-primary-default hover:bg-primary-dark"

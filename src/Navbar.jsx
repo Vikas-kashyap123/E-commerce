@@ -1,6 +1,7 @@
 import React from "react";
 import { BsMinecartLoaded } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 function Navbar({ productCount }) {
   return (
@@ -13,8 +14,10 @@ function Navbar({ productCount }) {
           />
         </div>
         <div className="flex gap-4">
-          <div className="text-xl space-x-4 ">
-            <a className="hover:text-primary-dark">Home</a>
+          <div className="text-xl space-x-4 hidden md:block ">
+            <Link className="hover:text-primary-dark" to="/">
+              Home
+            </Link>
             <a className="hover:text-primary-dark">Products</a>
             <a className="hover:text-primary-dark">About</a>
             <a className="hover:text-primary-dark">Contact</a>
@@ -22,15 +25,23 @@ function Navbar({ productCount }) {
               Account
             </Link>
           </div>
-          <div>
-            <Link to="/cart">
-              <div className="flex flex-col items-center justify-center">
-                <BsMinecartLoaded className="pb-1 text-4xl text-primary-default hover:text-primary-dark" />
-                <span className="-m-8 text-primary-default hover:text-primary-dark">
-                  {productCount}
-                </span>
-              </div>
-            </Link>
+
+          <div className="flex gap-4">
+            <div>
+              <Link to="/cart">
+                <div className="flex flex-col items-center justify-center">
+                  <BsMinecartLoaded className="pb-1 text-4xl text-primary-default hover:text-primary-dark" />
+                  <span className="-m-8 text-primary-default hover:text-primary-dark">
+                    {productCount}
+                  </span>
+                </div>
+              </Link>
+            </div>
+            <div>
+              <Link to="/login">
+                <GiHamburgerMenu className="hover:text-primary-dark text-5xl pt-3 md:hidden" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
