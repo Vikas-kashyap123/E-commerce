@@ -7,9 +7,6 @@ import Details from "./Details";
 import NotFound from "./NotFound";
 import { useState } from "react";
 import CartPage from "./CartPage";
-import LoginPage from "./LoginPage";
-import SignUp from "./SignUp";
-import ForgotPassword from "./ForgotPassword";
 
 function Appclone() {
   const savedDataString = localStorage.getItem("my-cart") || "{}";
@@ -42,9 +39,6 @@ function Appclone() {
           />
           <Route path="*" element={<NotFound />} />
           <Route path="/cart" element={<CartPage cartData={savedData} />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/forgot" element={<ForgotPassword />} />
         </Routes>
       </div>
       <Footer />
