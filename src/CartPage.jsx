@@ -8,7 +8,6 @@ import Loading from "./Loading";
 function CartPage({ cartData }) {
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(true);
-  const id = +useParams().id;
 
   const promises = Object.keys(cartData).map(function (productId) {
     return getProductData(productId);
@@ -32,7 +31,10 @@ function CartPage({ cartData }) {
         <HiArrowLeft />
         Home
       </Link>
-      <div className="flex-col items-center justify-between hidden px-4 mx-auto font-bold border bg-gray-50 md:flex md:h-12 md:max-w-5xl md:flex-row border-gray-default">
+      <div
+        className="flex-col items-center justify-between hidden px-4 mx-auto font-bold border
+       bg-gray-50 md:flex md:h-12 md:max-w-5xl md:flex-row border-gray-default"
+      >
         <span className="md:w-16 bg-primary-default"></span>
         <span className="hidden bg-primary-default w-28 md:block"></span>
         <h1 className="md:w-72">Product</h1>

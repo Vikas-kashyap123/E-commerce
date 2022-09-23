@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsMinecartLoaded } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
+import MobileMenu from "./MobileMenu";
 
 function Navbar({ productCount }) {
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  function handleMenuOpeneClick() {
+    setMenuOpen(!isMenuOpen);
+  }
+
   return (
     <div className="py-4 bg-white">
       <div className="flex justify-between max-w-6xl mx-auto item-center">
@@ -18,9 +24,15 @@ function Navbar({ productCount }) {
             <Link className="hover:text-primary-dark" to="/">
               Home
             </Link>
-            <a className="hover:text-primary-dark">Products</a>
-            <a className="hover:text-primary-dark">About</a>
-            <a className="hover:text-primary-dark">Contact</a>
+            <Link to="/" className="hover:text-primary-dark">
+              Products
+            </Link>
+            <Link to="/" className="hover:text-primary-dark">
+              About
+            </Link>
+            <Link to="/" className="hover:text-primary-dark">
+              Contact
+            </Link>
             <Link className="hover:text-primary-dark" to="/login">
               Account
             </Link>
@@ -38,9 +50,11 @@ function Navbar({ productCount }) {
               </Link>
             </div>
             <div>
-              <Link to="/login">
-                <GiHamburgerMenu className="hover:text-primary-dark text-5xl pt-3 md:hidden" />
-              </Link>
+              <GiHamburgerMenu
+                onClick={handleMenuOpeneClick}
+                className="hover:text-primary-dark text-5xl pt-3 md:hidden"
+              />
+              {isMenuOpen && <MobileMenu className="md:hidden" />}
             </div>
           </div>
         </div>
