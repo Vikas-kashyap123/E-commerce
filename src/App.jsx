@@ -10,6 +10,7 @@ import CartPage from "./CartPage";
 import LoginPage from "./LoginPage";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
+import MobileMenu from "./MobileMenu";
 
 function Appclone() {
   const savedDataString = localStorage.getItem("my-cart") || "{}";

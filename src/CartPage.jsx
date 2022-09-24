@@ -8,6 +8,7 @@ import Loading from "./Loading";
 function CartPage({ cartData }) {
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(true);
+  const id = +useParams().id;
 
   const promises = Object.keys(cartData).map(function (productId) {
     return getProductData(productId);
