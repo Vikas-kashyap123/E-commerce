@@ -4,10 +4,15 @@ import { HiArrowLeft } from "react-icons/hi";
 import { Link, useParams } from "react-router-dom";
 import { getProductData } from "./Api";
 import Loading from "./Loading";
+import { useContext } from "react";
+import { cartContext } from "./App";
 
-function CartPage({ cartData }) {
+function CartPage() {
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(true);
+
+  const cartData = useContext(cartContext);
+  console.log("provider ka data", cartData);
 
   const promises = Object.keys(cartData).map(function (productId) {
     return getProductData(productId);
@@ -31,10 +36,7 @@ function CartPage({ cartData }) {
         <HiArrowLeft />
         Home
       </Link>
-      <div
-        className="flex-col items-center justify-between hidden px-4 mx-auto font-bold border
-       bg-gray-50 md:flex md:h-12 md:max-w-5xl md:flex-row border-gray-default"
-      >
+      <div className="flex-col items-center justify-between hidden px-4 mx-auto font-bold border bg-gray-50 md:flex md:h-12 md:max-w-5xl md:flex-row border-gray-default">
         <span className="md:w-16 bg-primary-default"></span>
         <span className="hidden bg-primary-default w-28 md:block"></span>
         <h1 className="md:w-72">Product</h1>
@@ -42,7 +44,7 @@ function CartPage({ cartData }) {
         <h2 className=" md:w-28">Quantity</h2>
         <h2 className="md:w-28">subtotal</h2>
       </div>
-      <CartList items={products} />
+      <CartList items={products} onItemChange={onItemChange} />
       <div className="flex justify-between">
         <div>
           <input

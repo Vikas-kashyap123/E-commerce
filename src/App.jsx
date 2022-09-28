@@ -11,7 +11,10 @@ import LoginPage from "./LoginPage";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 
-function Appclone() {
+export const cartContext = React.createContext();
+export const CountContext = React.createContext();
+
+function App() {
   const savedDataString = localStorage.getItem("my-cart") || "{}";
   const savedData = JSON.parse(savedDataString);
 
@@ -34,23 +37,29 @@ function Appclone() {
     <div className="flex flex-col h-screen p-2 overflow-scroll bg-gray-default">
       <Navbar productCount={totalCount} />
       <div className="grow">
-        <Routes>
-          <Route index element={<ProductPage />} />
-          <Route
-            path="/Products/:id"
-            element={<Details onAddToCart={handleCartChange} />}
-          />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/cart" element={<CartPage cartData={savedData} />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/forgot" element={<ForgotPassword />} />
-          <Route path="/" element={<ProductPage />} />
-        </Routes>
+        <CountContext.Provider value={CountContext}>
+          <cartContext.Provider value={savedData}>
+            <Routes>
+              <Route index element={<ProductPage />} />
+              <Route
+                path="/Products/:id"
+                element={<Details onAddToCart={handleCartChange} />}
+              />
+              <Route path="*" element={<NotFound />} />
+
+              <Route path="/cart" element={<CartPage />} />
+
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/forgot" element={<ForgotPassword />} />
+              <Route path="/" element={<ProductPage />} />
+            </Routes>
+          </cartContext.Provider>
+        </CountContext.Provider>
       </div>
       <Footer />
     </div>
   );
 }
 
-export default Appclone;
+export default App;
