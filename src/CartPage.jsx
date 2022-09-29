@@ -11,8 +11,12 @@ import { useEffect } from "react";
 function CartPage({ onItemChange }) {
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
   // const [localCart, setLocalCart] = useState(cartData);
   // const updateCart = useContext(updateContext);
+=======
+  const id = +useParams().id;
+>>>>>>> main
 
   // useEffect(
   //   function () {
