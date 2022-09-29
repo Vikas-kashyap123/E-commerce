@@ -1,33 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import { cartContext, updateContext } from "./App";
 
-function CartRow({ thumbnail, title, price, id, handleUpdateCart }) {
-  const [loading, setLoading] = useState(false);
-
+function CartRow({ thumbnail, title, price, id, localCart, setLocalCart }) {
   const cartData = useContext(cartContext);
   const updateCart = useContext(updateContext);
-  const [localCart, setLocalCart] = useState(cartData);
 
   function handleDelete(event) {
     const productId = event.currentTarget.getAttribute("productid");
     console.log("product going to be removed is", productId);
 
-    useEffect(
-      function () {
-        setLocalCart(cartData);
-      },
-      [cartData]
-    );
-
     const newCart = { ...cartData };
     delete newCart[productId];
     updateCart(newCart);
-    setLoading(true);
-  }
-
-  function handleValueUpdate() {
-    handleUpdateCart(localCart);
   }
 
   function handleChange(event) {

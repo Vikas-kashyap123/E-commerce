@@ -1,16 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import ProductPage from "./ProductPage";
 import Details from "./Details";
 import NotFound from "./NotFound";
-import { useState } from "react";
 import CartPage from "./CartPage";
 import LoginPage from "./LoginPage";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
-import MobileMenu from "./MobileMenu";
 
 export const cartContext = React.createContext();
 export const updateContext = React.createContext();
@@ -25,7 +23,6 @@ function App() {
   function handleCartChange(productId, count) {
     const oldCount = cart[productId] || 0;
     const newCart = { ...cart, [productId]: oldCount + count };
-
     updateCart(newCart);
   }
   function updateCart(newCart) {

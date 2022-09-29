@@ -15,11 +15,13 @@ function CartPage({ onItemChange }) {
   const updateCart = useContext(updateContext);
   const cartData = useContext(cartContext);
   console.log("provider ka data", cartData);
+  const [localCart, setLocalCart] = useState(cartData);
 
   const cartIds = Object.keys(cartData);
 
   useEffect(
     function () {
+      setLoading(true);
       const promises = cartIds.map(function (productId) {
         return getProductData(productId);
       });
@@ -33,8 +35,14 @@ function CartPage({ onItemChange }) {
     },
     [cartData]
   );
+  useEffect(
+    function () {
+      setLocalCart(cartData);
+    },
+    [cartData]
+  );
 
-  function handleUpdateCart({ localCart }) {
+  function handleUpdateCart() {
     updateCart(localCart);
   }
 
@@ -59,7 +67,8 @@ function CartPage({ onItemChange }) {
       <CartList
         items={products}
         onItemChange={onItemChange}
-        handleUpdateCart={handleUpdateCart}
+        localCart={localCart}
+        setLocalCart={setLocalCart}
       />
       <div className="flex justify-between">
         <div>
