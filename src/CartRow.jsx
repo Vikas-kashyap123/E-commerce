@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { cartContext, updateContext } from "./App";
 
-function CartRow({ thumbnail, title, price, id }) {
+function CartRow({ thumbnail, title, price, id, handleUpdateCart }) {
   const [loading, setLoading] = useState(false);
 
   const cartData = useContext(cartContext);
@@ -24,6 +24,10 @@ function CartRow({ thumbnail, title, price, id }) {
     delete newCart[productId];
     updateCart(newCart);
     setLoading(true);
+  }
+
+  function handleValueUpdate() {
+    handleUpdateCart(localCart);
   }
 
   function handleChange(event) {

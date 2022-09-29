@@ -34,7 +34,7 @@ function CartPage({ onItemChange }) {
     [cartData]
   );
 
-  function handleUpdateCart() {
+  function handleUpdateCart({ localCart }) {
     updateCart(localCart);
   }
 
@@ -59,9 +59,7 @@ function CartPage({ onItemChange }) {
       <CartList
         items={products}
         onItemChange={onItemChange}
-
-        // localCart={localCart}
-        // setLocalCart={setLocalCart}
+        handleUpdateCart={handleUpdateCart}
       />
       <div className="flex justify-between">
         <div>
