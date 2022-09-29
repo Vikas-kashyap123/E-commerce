@@ -12,7 +12,7 @@ import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 
 export const cartContext = React.createContext();
-export const CountContext = React.createContext();
+export const updateContext = React.createContext();
 
 function App() {
   const savedDataString = localStorage.getItem("my-cart") || "{}";
@@ -24,6 +24,10 @@ function App() {
   function handleCartChange(productId, count) {
     const oldCount = cart[productId] || 0;
     const newCart = { ...cart, [productId]: oldCount + count };
+
+    updateCart(newCart);
+  }
+  function updateCart(newCart) {
     setCart(newCart);
     const cartString = JSON.stringify(newCart);
     localStorage.setItem("my-cart", cartString);
@@ -37,7 +41,7 @@ function App() {
     <div className="flex flex-col h-screen p-2 overflow-scroll bg-gray-default">
       <Navbar productCount={totalCount} />
       <div className="grow">
-        <CountContext.Provider value={CountContext}>
+        <updateContext.Provider value={updateCart}>
           <cartContext.Provider value={savedData}>
             <Routes>
               <Route index element={<ProductPage />} />
@@ -55,7 +59,7 @@ function App() {
               <Route path="/" element={<ProductPage />} />
             </Routes>
           </cartContext.Provider>
-        </CountContext.Provider>
+        </updateContext.Provider>
       </div>
       <Footer />
     </div>

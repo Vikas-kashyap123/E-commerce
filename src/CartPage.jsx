@@ -5,26 +5,46 @@ import { Link, useParams } from "react-router-dom";
 import { getProductData } from "./Api";
 import Loading from "./Loading";
 import { useContext } from "react";
-import { cartContext } from "./App";
+import { cartContext, updateContext } from "./App";
+import { useEffect } from "react";
 
-function CartPage() {
+function CartPage({ onItemChange }) {
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(true);
+  // const [localCart, setLocalCart] = useState(cartData);
+  // const updateCart = useContext(updateContext);
 
+  // useEffect(
+  //   function () {
+  //     setLocalCart(localCart);
+  //   },
+  //   [cartData]
+  // );
+  const updateCart = useContext(updateContext);
   const cartData = useContext(cartContext);
   console.log("provider ka data", cartData);
 
-  const promises = Object.keys(cartData).map(function (productId) {
-    return getProductData(productId);
-  });
+  const cartIds = Object.keys(cartData);
 
-  const bigPromise = Promise.all(promises);
+  useEffect(
+    function () {
+      const promises = cartIds.map(function (productId) {
+        return getProductData(productId);
+      });
+      const bigPromise = Promise.all(promises);
 
-  bigPromise.then(function (products) {
-    console.log("promises ka data", products);
-    setProducts(products);
-    setLoading(false);
-  });
+      bigPromise.then(function (products) {
+        console.log("promises ka data", products);
+        setProducts(products);
+        setLoading(false);
+      });
+    },
+    [cartData]
+  );
+
+  function handleUpdateCart() {
+    updateCart(localCart);
+  }
 
   if (loading) {
     return <Loading />;
@@ -44,7 +64,13 @@ function CartPage() {
         <h2 className=" md:w-28">Quantity</h2>
         <h2 className="md:w-28">subtotal</h2>
       </div>
-      <CartList items={products} onItemChange={onItemChange} />
+      <CartList
+        items={products}
+        onItemChange={onItemChange}
+
+        // localCart={localCart}
+        // setLocalCart={setLocalCart}
+      />
       <div className="flex justify-between">
         <div>
           <input
@@ -55,7 +81,10 @@ function CartPage() {
             APPLY COUPON
           </button>
         </div>
-        <button className="px-4 py-2 font-bold text-white rounded-lg bg-primary-default hover:bg-primary-dark">
+        <button
+          onClick={handleUpdateCart}
+          className="px-4 py-2 font-bold text-white rounded-lg bg-primary-default hover:bg-primary-dark"
+        >
           UPDATE CART
         </button>
       </div>
