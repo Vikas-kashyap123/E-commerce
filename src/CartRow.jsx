@@ -15,6 +15,8 @@ function CartRow({ thumbnail, title, price, id, localCart, setLocalCart }) {
     updateCart(newCart);
   }
 
+  const data = {};
+
   function handleChange(event) {
     const newValue = +event.target.value;
     const productId = event.target.getAttribute("productid");
@@ -67,5 +69,7 @@ function CartRow({ thumbnail, title, price, id, localCart, setLocalCart }) {
     </div>
   );
 }
+
+
 
 export default CartRow;

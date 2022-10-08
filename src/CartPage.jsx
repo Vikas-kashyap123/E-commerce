@@ -18,7 +18,7 @@ function CartPage({ onItemChange }) {
   const [localCart, setLocalCart] = useState(cartData);
 
   const cartIds = Object.keys(cartData);
-
+    
   useEffect(
     function () {
       setLoading(true);

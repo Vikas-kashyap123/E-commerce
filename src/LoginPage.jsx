@@ -2,11 +2,28 @@ import React from "react";
 import { withFormik } from "formik";
 import Button from "./Button";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Input from "./Input";
+import axios from "axios";
+import { loginUserContext } from "./App";
+import { useContext } from "react";
 
-function callLoginApi(values) {
+function callLoginApi(values, bag) {
   console.log("sending data", values.email, values.password);
+  axios
+    .post("https://myeasykart.codeyogi.io/login", {
+      email: values.email,
+      password: values.password,
+    })
+    .then((response) => {
+      const { user, token } = response.data;
+      localStorage.setItem("token", token);
+      console.log("MyData", bag);
+      bag.props.setUser(user);
+    })
+    .catch(() => {
+      console.log("Invalid Credentials");
+    });
 }
 
 const schema = Yup.object().shape({
@@ -22,7 +39,7 @@ const initialValues = {
   password: "",
 };
 
-function LoginPage({
+export function LoginPage({
   handleSubmit,
   values,
   errors,
@@ -30,6 +47,13 @@ function LoginPage({
   handleChange,
   handleBlur,
 }) {
+  const user = useContext(loginUserContext);
+  console.log("data in props", values, errors);
+
+  if (user) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <div className="h-full max-w-6xl mx-auto mt-16 text-2xl bg-white ">
       <form
@@ -43,7 +67,7 @@ function LoginPage({
               Username or Email Address
             </h1>
             <Input
-              value={values.email}
+              values={values.email}
               error={errors.email}
               touched={touched.email}
               onChange={handleChange}
@@ -59,7 +83,7 @@ function LoginPage({
           <div>
             <h1 className="text-sm font-bold text-gray-light">Password</h1>
             <Input
-              value={values.password}
+              values={values.password}
               error={errors.password}
               touched={touched.password}
               onChange={handleChange}

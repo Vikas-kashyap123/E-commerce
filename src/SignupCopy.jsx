@@ -8,13 +8,13 @@ import { loginUserContext } from "./App";
 import { useContext } from "react";
 import axios from "axios";
 
-function callLoginApi(values, bag) {
-  console.log("sending data", values.email, values.password, values.fullName);
+function callSignupApi(values, bag) {
+  console.log("sending data", values.fullName, values.email, values.password);
   axios
     .post("https://myeasykart.codeyogi.io/signup", {
+      fullName: values.fullName,
       email: values.email,
       password: values.password,
-      fullName: values.fullName,
     })
     .then((response) => {
       const { user, token } = response.data;
@@ -23,21 +23,24 @@ function callLoginApi(values, bag) {
       bag.props.setUser(user);
     })
     .catch(() => {
-      console.log("Already have an account");
+      console.log("Invalid Credentials");
     });
 }
 
 const schema = Yup.object().shape({
   email: Yup.string().email().required(),
-  password: Yup.string()
-    .required()
-    .min(8, "dont you know its really small")
-    .max(14, "very bada password"),
+  fullName: Yup.string().required(),
+  password: Yup.string().required().min(8),
+  confirm_password: Yup.string().required().min(8),
+  mobile_number: Yup.number().required(),
 });
 
 const initialValues = {
+  name: "",
   email: "",
+  mobile_number: "",
   password: "",
+  confirm_password: "",
 };
 
 export function SignUp({
@@ -48,6 +51,7 @@ export function SignUp({
   handleChange,
   handleBlur,
 }) {
+  console.log("handleSubmit called", handleSubmit);
   const user = useContext(loginUserContext);
   console.log("data in props", values, errors);
   if (user) {
@@ -61,9 +65,9 @@ export function SignUp({
         <div className="flex justify-between">
           <form
             onSubmit={handleSubmit}
-            className="max-w-5xl px-4 py-8 mx-2 space-y-8 bg-white md:mx-auto md:py-8"
+            className="max-w-5xl px-4 py-8 space-y-8 border border-gray-300 rounded-md md:w-1/2 -pl-8"
           >
-            <div className="max-w-5xl px-4 py-8 space-y-8 border border-gray-300 rounded-md -pl-8">
+            <div className="space-y-6">
               <div>
                 <Input
                   values={values.fullName}
@@ -76,7 +80,6 @@ export function SignUp({
                   type="text"
                   placeholder="Full Name"
                   label="fullName"
-                  required
                 />
               </div>
               <div>
@@ -86,13 +89,12 @@ export function SignUp({
                   touched={touched.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  label="Email address"
-                  id="email-address"
+                  id="email"
                   name="email"
-                  type="email"
-                  required
                   autoComplete="email"
-                  placeholder="email"
+                  placeholder="Enter Your Email"
+                  type="email"
+                  label="fullName"
                 />
               </div>
               <div>
@@ -105,8 +107,6 @@ export function SignUp({
                   placeholder="Enter Mobile Number"
                   name="number"
                   id="number"
-                  required
-                  label="Mobile Number"
                 />
               </div>
               <div>
@@ -116,13 +116,10 @@ export function SignUp({
                   touched={touched.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  label="Password"
-                  id="password"
+                  placeholder="Create Password"
                   name="password"
+                  id="password"
                   type="password"
-                  required
-                  autoComplete="current-password"
-                  placeholder="current-password"
                 />
               </div>
               <div>
@@ -136,32 +133,20 @@ export function SignUp({
                   name="confirm_password"
                   id="confirm_password"
                   type="password"
-                  label="confirm_password"
                 />
               </div>
-              <div className="flex flex-row ">
-                <div className="mt-3">
-                  <div className="flex flex-col">
-                    <Button type="submit">SignUp</Button>
-                    <Link
-                      className="pt-4 text-sm font-black md:text-md text-primary-default"
-                      to="/forgot"
-                    >
-                      Lost Your Password?
-                    </Link>
-                  </div>
-                </div>
-                <div className="mt-1 ml-5 text-gray-light ">
-                  <h1 className="text-sm font-black md:text-md">
-                    login if you have Already an account
-                  </h1>
-                  <Link
-                    className="max-w-xs px-8 py-2 text-sm font-bold text-white rounded-md bg-primary-default hover:bg-primary-dark"
-                    to="/login"
-                  >
-                    login
-                  </Link>
-                </div>
+            </div>
+
+            <div className="mt-3">
+              <Button type="submit">Signup</Button>
+              <div className="flex gap-2 mt-3">
+                <h1>Already have an Account? </h1>
+                <Link
+                  className="font-bold text-primary-default hover:text-primary-dark"
+                  to="/login"
+                >
+                  Login
+                </Link>
               </div>
             </div>
           </form>
@@ -178,13 +163,14 @@ export function SignUp({
   );
 }
 
-const myHOC = withFormik({
+const signupHOC = withFormik({
   initialValues: initialValues,
   validationSchema: schema,
-  handleSubmit: callLoginApi,
+  handleSubmit: callSignupApi,
   validateOnMount: false,
 });
-const easySignup = myHOC(SignUp);
+const easySignup = signupHOC(SignUp);
+
 export default easySignup;
 
 {

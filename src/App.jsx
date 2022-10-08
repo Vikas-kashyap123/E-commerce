@@ -9,15 +9,42 @@ import CartPage from "./CartPage";
 import LoginPage from "./LoginPage";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
+import { useEffect } from "react";
+import axios from "axios";
+import Loading from "./Loading";
 
 export const cartContext = React.createContext();
 export const updateContext = React.createContext();
+export const loginUserContext = React.createContext();
 
 function App() {
   const savedDataString = localStorage.getItem("my-cart") || "{}";
   const savedData = JSON.parse(savedDataString);
+  const [user, setUser] = useState();
+  const [loadingUser, setLoadingUser] = useState(true);
 
-  console.log("savedData", savedData);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token) {
+      axios
+        .get("https://myeasykart.codeyogi.io/me", {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          setUser(response.data);
+          setLoadingUser(false);
+        });
+    } else {
+      setLoadingUser(false);
+    }
+  }, []);
+
+  console.log("logged in user is", user);
+
+  // console.log("savedData", savedData);
   const [cart, setCart] = useState(savedData);
 
   function handleCartChange(productId, count) {
@@ -35,27 +62,36 @@ function App() {
     return previous + cart[current];
   }, 0);
 
+  if (loadingUser) {
+    return <Loading />;
+  }
+
   return (
     <div className="flex flex-col h-screen p-2 overflow-scroll bg-gray-default">
       <Navbar productCount={totalCount} />
       <div className="grow">
         <updateContext.Provider value={updateCart}>
           <cartContext.Provider value={savedData}>
-            <Routes>
-              <Route index element={<ProductPage />} />
-              <Route
-                path="/Products/:id"
-                element={<Details onAddToCart={handleCartChange} />}
-              />
-              <Route path="*" element={<NotFound />} />
+            <loginUserContext.Provider value={{ user, setUser }}>
+              <Routes>
+                <Route index element={<ProductPage user={user} />} />
+                <Route
+                  path="/Products/:id"
+                  element={<Details onAddToCart={handleCartChange} />}
+                />
+                <Route path="*" element={<NotFound />} />
 
-              <Route path="/cart" element={<CartPage />} />
+                <Route path="/cart" element={<CartPage />} />
 
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/forgot" element={<ForgotPassword />} />
-              <Route path="/" element={<ProductPage />} />
-            </Routes>
+                <Route
+                  path="/login"
+                  element={<LoginPage setUser={setUser} user={user} />}
+                />
+                <Route path="/signup" element={<SignUp setUser={setUser} />} />
+                <Route path="/forgot" element={<ForgotPassword />} />
+                <Route path="/" element={<ProductPage setUser={setUser} />} />
+              </Routes>
+            </loginUserContext.Provider>
           </cartContext.Provider>
         </updateContext.Provider>
       </div>

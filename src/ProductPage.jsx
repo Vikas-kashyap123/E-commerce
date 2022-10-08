@@ -4,20 +4,36 @@ import { getProductList } from "./Api";
 import NoMatching from "./NoMatching";
 import Loading from "./Loading";
 import { HiArrowNarrowRight } from "react-icons/hi";
+import { loginUserContext } from "./App";
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
+import Button from "./Button";
 
-function ProductPage() {
+function ProductPage({ setUser }) {
+  const user = useContext(loginUserContext);
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("default");
 
+  const handleChange = () => {
+    localStorage.removeItem("token");
+    setUser(undefined);
+  };
+
   useEffect(function () {
     const xyz = getProductList();
 
     xyz.then(function (products) {
-      setProductList(products);
-      setLoading(false);
+      if (products) {
+        setProductList(products);
+        setLoading(false);
+      }
     });
   }, []);
 
@@ -58,7 +74,7 @@ function ProductPage() {
           <input
             value={query}
             placeholder="search"
-            className="mb-2 border border-gray-600"
+            className="px-2 mb-2 border border-gray-600"
             onChange={handleQueryChange}
           />
           <select
@@ -75,7 +91,7 @@ function ProductPage() {
         </div>
         {data.length > 0 && <ProductList products={data} />}
         {(loading && <Loading />) || (data.length == 0 && <NoMatching />)}
-        <div>
+        <div className="flex justify-between">
           <div className="flex gap-1 my-12">
             <div className="w-10 h-10 text-center text-white bg-primary-default">
               1
@@ -86,6 +102,9 @@ function ProductPage() {
             <div className="w-10 h-10 text-center border text-primary-default border-primary-default hover:bg-primary-default hover:text-white">
               <HiArrowNarrowRight />
             </div>
+          </div>
+          <div className="my-12">
+            <Button onClick={handleChange}>Logout</Button>
           </div>
         </div>
       </div>
