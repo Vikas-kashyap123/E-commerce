@@ -92,14 +92,8 @@ function App() {
 
                   <Route path="/cart" element={<CartPage />} />
 
-                  <Route
-                    path="/login"
-                    element={<LoginPage setUser={setUser} user={user} />}
-                  />
-                  <Route
-                    path="/signup"
-                    element={<SignUp setUser={setUser} user={user} />}
-                  />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/signup" element={<SignUp />} />
                   <Route path="/forgot" element={<ForgotPassword />} />
                   <Route path="/" element={<ProductPage setUser={setUser} />} />
                 </Routes>

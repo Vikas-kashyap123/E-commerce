@@ -2,11 +2,11 @@ import React from "react";
 import { withFormik } from "formik";
 import Button from "./Button";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Input from "./Input";
 
 import axios from "axios";
-import { withAlert } from "./withProvider";
+import { withAlert, withUser } from "./withProvider";
 
 function callLoginApi(values, bag) {
   console.log("sending data", values.email, values.password, values.fullName);
@@ -189,4 +189,4 @@ const myHOC = withFormik({
   validateOnMount: false,
 });
 const easySignup = myHOC(SignUp);
-export default withAlert(easySignup);
+export default withUser(withAlert(easySignup));

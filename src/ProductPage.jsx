@@ -4,13 +4,14 @@ import { getProductList } from "./Api";
 import NoMatching from "./NoMatching";
 import Loading from "./Loading";
 import { HiArrowNarrowRight } from "react-icons/hi";
-import { loginUserContext } from "./Contexts";
-import { useContext } from "react";
+// import { loginUserContext } from "./Contexts";
+// import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import Button from "./Button";
+import { withUser } from "./withProvider";
 
-function ProductPage({ setUser }) {
-  const user = useContext(loginUserContext);
+function ProductPage({ setUser, user }) {
+  // const user = useContext(loginUserContext);
 
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -111,4 +112,4 @@ function ProductPage({ setUser }) {
     </div>
   );
 }
-export default ProductPage;
+export default withUser(ProductPage);
