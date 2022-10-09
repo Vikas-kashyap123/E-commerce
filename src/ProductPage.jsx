@@ -74,7 +74,7 @@ function ProductPage({ setUser, user, setAlert }) {
     return <Navigate to="/login" />;
   }
   return (
-    <div className="max-w-6xl mx-auto bg-white shadow-2xl md:my-16 md:py-9 shadow-black">
+    <div className="max-w-6xl px-3 mx-auto bg-white shadow-2xl md:my-16 md:py-9 shadow-black">
       <div className="max-w-5xl mx-auto">
         <h2 className="mb-3 text-center sm:text-left">Home/Shop</h2>
         <h1 className="text-3xl text-center text-primary-default mb-7 sm:text-left">

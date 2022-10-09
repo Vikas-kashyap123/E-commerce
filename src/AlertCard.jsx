@@ -46,9 +46,9 @@ function AlertCard({ alert, handleAlertRemove }) {
           <Icon className="text-3xl text-primary-default" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">{type}</h1>
+          <h1 className="text-3xl font-bold">{type}</h1>
         </div>
-        <div className="text-2xl font-bold">{message}</div>
+        <div className="font-bold md:text-xl">{message}</div>
         <div>
           <MdOutlineDoNotDisturbOn
             onClick={handleAlertRemove}
