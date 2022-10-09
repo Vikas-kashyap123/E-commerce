@@ -38,7 +38,7 @@ function ProductPage({ setUser, user, setAlert }) {
         setLoading(false);
         setAlert({
           type: "success",
-          message: "Congratulations",
+          message: "Welcome to DreamBuy",
         });
       }
     });
