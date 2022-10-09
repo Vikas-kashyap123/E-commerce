@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useContext } from "react";
-import { cartContext, updateContext } from "./App";
+import { cartContext, updateContext } from "./Contexts";
 
 function CartRow({ thumbnail, title, price, id, localCart, setLocalCart }) {
   const cartData = useContext(cartContext);
@@ -69,7 +69,5 @@ function CartRow({ thumbnail, title, price, id, localCart, setLocalCart }) {
     </div>
   );
 }
-
-
 
 export default CartRow;

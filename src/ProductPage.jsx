@@ -4,17 +4,16 @@ import { getProductList } from "./Api";
 import NoMatching from "./NoMatching";
 import Loading from "./Loading";
 import { HiArrowNarrowRight } from "react-icons/hi";
-import { loginUserContext } from "./App";
+import { loginUserContext } from "./Contexts";
 import { useContext } from "react";
-import { Navigate } from "react-router-dom";
+
 import Button from "./Button";
+
+import { Navigate } from "react-router-dom";
 
 function ProductPage({ setUser }) {
   const user = useContext(loginUserContext);
 
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -26,16 +25,17 @@ function ProductPage({ setUser }) {
     setUser(undefined);
   };
 
-  useEffect(function () {
-    const xyz = getProductList();
+  useEffect(
+    function () {
+      const xyz = getProductList(id);
 
-    xyz.then(function (products) {
-      if (products) {
+      xyz.then(function (products) {
         setProductList(products);
         setLoading(false);
-      }
-    });
-  }, []);
+      });
+    },
+    [id]
+  );
 
   let data = productList.filter(function (item) {
     const LowerCaseTitle = item.title.toLowerCase();
@@ -63,9 +63,13 @@ function ProductPage({ setUser }) {
     setSort(event.target.value);
   }
 
+  if (!user) {
+    return <Navigate to="login" />;
+  }
+
   return (
     <div className="max-w-6xl mx-auto bg-white shadow-2xl md:my-16 md:py-9 shadow-black">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl px-6 mx-auto">
         <h2 className="mb-3 text-center sm:text-left">Home/Shop</h2>
         <h1 className="text-3xl text-center text-primary-default mb-7 sm:text-left">
           Shop

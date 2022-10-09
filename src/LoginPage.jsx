@@ -5,8 +5,7 @@ import * as Yup from "yup";
 import { Link, Navigate } from "react-router-dom";
 import Input from "./Input";
 import axios from "axios";
-import { loginUserContext } from "./App";
-import { useContext } from "react";
+import { withAlert } from "./withProvider";
 
 function callLoginApi(values, bag) {
   console.log("sending data", values.email, values.password);
@@ -15,6 +14,7 @@ function callLoginApi(values, bag) {
       email: values.email,
       password: values.password,
     })
+
     .then((response) => {
       const { user, token } = response.data;
       localStorage.setItem("token", token);
@@ -22,7 +22,10 @@ function callLoginApi(values, bag) {
       bag.props.setUser(user);
     })
     .catch(() => {
-      console.log("Invalid Credentials");
+      bag.props.setAlert({
+        type: "error",
+        message: "Invalid Credentials" + values.password,
+      });
     });
 }
 
@@ -40,6 +43,7 @@ const initialValues = {
 };
 
 export function LoginPage({
+  user,
   handleSubmit,
   values,
   errors,
@@ -47,7 +51,6 @@ export function LoginPage({
   handleChange,
   handleBlur,
 }) {
-  const user = useContext(loginUserContext);
   console.log("data in props", values, errors);
 
   if (user) {
@@ -134,7 +137,7 @@ const myHOC = withFormik({
   validateOnMount: false,
 });
 const easyLogin = myHOC(LoginPage);
-export default easyLogin;
+export default withAlert(easyLogin);
 
 //  <Formik
 //         initialValues={initialValues}
