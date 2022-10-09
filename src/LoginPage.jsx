@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { Link, Navigate } from "react-router-dom";
 import Input from "./Input";
 import axios from "axios";
-import { withAlert } from "./withProvider";
+import { withAlert, withUser } from "./withProvider";
 
 function callLoginApi(values, bag) {
   console.log("sending data", values.email, values.password);
@@ -50,6 +50,7 @@ export function LoginPage({
   touched,
   handleChange,
   handleBlur,
+  user,
 }) {
   console.log("data in props", values, errors);
 
@@ -137,7 +138,7 @@ const myHOC = withFormik({
   validateOnMount: false,
 });
 const easyLogin = myHOC(LoginPage);
-export default withAlert(easyLogin);
+export default withUser(withAlert(easyLogin));
 
 //  <Formik
 //         initialValues={initialValues}
