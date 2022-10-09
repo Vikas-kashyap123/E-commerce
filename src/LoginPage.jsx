@@ -43,7 +43,6 @@ const initialValues = {
 };
 
 export function LoginPage({
-  user,
   handleSubmit,
   values,
   errors,
