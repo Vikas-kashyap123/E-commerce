@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
@@ -9,19 +9,23 @@ import CartPage from "./CartPage";
 import LoginPage from "./LoginPage";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
-import { useEffect } from "react";
 import axios from "axios";
 import Loading from "./Loading";
-
-export const cartContext = React.createContext();
-export const updateContext = React.createContext();
-export const loginUserContext = React.createContext();
+// import UserRoute from "./UserRoute";
+import AlertCard from "./AlertCard.";
+import {
+  cartContext,
+  updateContext,
+  loginUserContext,
+  Alertcontext,
+} from "./Contexts";
 
 function App() {
   const savedDataString = localStorage.getItem("my-cart") || "{}";
   const savedData = JSON.parse(savedDataString);
   const [user, setUser] = useState();
   const [loadingUser, setLoadingUser] = useState(true);
+  const [alert, setAlert] = useState();
 
   const token = localStorage.getItem("token");
 
@@ -65,35 +69,38 @@ function App() {
   if (loadingUser) {
     return <Loading />;
   }
+  const handleAlertRemove = () => {
+    setAlert(undefined);
+  };
 
   return (
     <div className="flex flex-col h-screen p-2 overflow-scroll bg-gray-default">
       <Navbar productCount={totalCount} />
       <div className="grow">
-        <updateContext.Provider value={updateCart}>
-          <cartContext.Provider value={savedData}>
-            <loginUserContext.Provider value={{ user, setUser }}>
-              <Routes>
-                <Route index element={<ProductPage user={user} />} />
-                <Route
-                  path="/Products/:id"
-                  element={<Details onAddToCart={handleCartChange} />}
-                />
-                <Route path="*" element={<NotFound />} />
+        <Alertcontext.Provider value={{ alert, setAlert, handleAlertRemove }}>
+          <AlertCard />
+          <updateContext.Provider value={updateCart}>
+            <cartContext.Provider value={savedData}>
+              <loginUserContext.Provider value={{ user, setUser }}>
+                <Routes>
+                  <Route index element={<ProductPage user={user} />} />
+                  <Route
+                    path="/Products/:id"
+                    element={<Details onAddToCart={handleCartChange} />}
+                  />
+                  <Route path="*" element={<NotFound />} />
 
-                <Route path="/cart" element={<CartPage />} />
+                  <Route path="/cart" element={<CartPage />} />
 
-                <Route
-                  path="/login"
-                  element={<LoginPage setUser={setUser} user={user} />}
-                />
-                <Route path="/signup" element={<SignUp setUser={setUser} />} />
-                <Route path="/forgot" element={<ForgotPassword />} />
-                <Route path="/" element={<ProductPage setUser={setUser} />} />
-              </Routes>
-            </loginUserContext.Provider>
-          </cartContext.Provider>
-        </updateContext.Provider>
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="/forgot" element={<ForgotPassword />} />
+                  <Route path="/" element={<ProductPage setUser={setUser} />} />
+                </Routes>
+              </loginUserContext.Provider>
+            </cartContext.Provider>
+          </updateContext.Provider>
+        </Alertcontext.Provider>
       </div>
       <Footer />
     </div>
