@@ -25,7 +25,7 @@ function callLoginApi(values, bag) {
     .catch(() => {
       bag.props.setAlert({
         type: "error",
-        message: "User Already exists" + values.password + values.email,
+        message: "User Already exists :" + values.email,
       });
     });
 }
@@ -59,15 +59,17 @@ export function SignUp({
   }
 
   return (
-    <div className="h-full max-w-6xl mx-auto mt-16 text-2xl bg-white ">
-      <div className="max-w-5xl px-4 py-8 mx-2 space-y-8 bg-white md:mx-auto md:py-8">
-        <h1 className="text-2xl font-bold text-gray-light">Signup</h1>
+    <div className="h-full max-w-6xl mx-auto mt-4 text-2xl bg-white md:mt-16 ">
+      <div className="max-w-5xl px-2 py-2 mx-2 space-y-8 bg-white md:px-4 md:py-8 md:mx-auto ">
+        <h1 className="text-xl font-bold md:text-2xl text-gray-light">
+          Signup
+        </h1>
         <div className="flex justify-between">
           <form
             onSubmit={handleSubmit}
-            className="max-w-5xl px-4 py-8 mx-2 space-y-8 bg-white md:mx-auto md:py-8"
+            className="max-w-5xl px-2 py-4 bg-white md:mx-auto md:py-8"
           >
-            <div className="max-w-5xl px-4 py-8 space-y-8 border border-gray-300 rounded-md -pl-8">
+            <div className="max-w-5xl px-4 py-4 space-y-3 border border-gray-300 rounded-md md:space-y-6 md:py-8 -pl-8">
               <div>
                 <Input
                   values={values.fullName}

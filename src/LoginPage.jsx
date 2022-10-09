@@ -24,7 +24,7 @@ function callLoginApi(values, bag) {
     .catch(() => {
       bag.props.setAlert({
         type: "error",
-        message: "Invalid Credentials" + values.password,
+        message: "Invalid Credentials :" + values.password,
       });
     });
 }
