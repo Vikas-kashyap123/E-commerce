@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
-import { loginUserContext } from "./Contexts";
+import { Alertcontext } from "./Contexts";
 
-function withUser(IncomingComponent) {
+function withAlert(IncomingComponent) {
   function OutgoingComponent(props) {
-    const contextData = useContext(loginUserContext);
+    const contextData = useContext(Alertcontext);
     return <IncomingComponent {...props} {...contextData} />;
   }
   return OutgoingComponent;
 }
 
-export default withUser;
+export default withAlert;

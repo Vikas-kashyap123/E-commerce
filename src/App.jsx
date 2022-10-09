@@ -11,8 +11,7 @@ import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import axios from "axios";
 import Loading from "./Loading";
-// import UserRoute from "./UserRoute";
-import AlertCard from "./AlertCard.";
+import AlertCard from "./AlertCard";
 import {
   cartContext,
   updateContext,

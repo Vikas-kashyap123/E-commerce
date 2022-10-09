@@ -14,6 +14,23 @@ export function getProductList() {
   });
 }
 
+export function loginApi() {
+  return axios
+    .post("https://myeasykart.codeyogi.io/login", {
+      email: values.email,
+      password: values.password,
+    })
+    .then((response) => {
+      const { user, token } = response.data;
+      localStorage.setItem("token", token);
+      console.log("MyData", bag);
+      bag.props.setUser(user);
+    })
+    .catch(() => {
+      console.log("Invalid Credentials");
+    });
+}
+
 // base url = https://dummyjson.com/
 //fetch product list
 // path = carts

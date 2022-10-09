@@ -20,7 +20,7 @@ function Navbar({ productCount }) {
           />
         </div>
         <div className="flex gap-4">
-          <div className="text-xl space-x-4 hidden md:block ">
+          <div className="hidden space-x-4 text-xl md:block ">
             <Link className="hover:text-primary-dark" to="/">
               Home
             </Link>
@@ -52,7 +52,7 @@ function Navbar({ productCount }) {
             <div>
               <GiHamburgerMenu
                 onClick={handleMenuOpeneClick}
-                className="hover:text-primary-dark text-5xl pt-3 md:hidden"
+                className="pt-3 text-5xl hover:text-primary-dark md:hidden"
               />
               {isMenuOpen && <MobileMenu className="md:hidden" />}
             </div>

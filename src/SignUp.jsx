@@ -4,9 +4,9 @@ import Button from "./Button";
 import * as Yup from "yup";
 import { Link, Navigate } from "react-router-dom";
 import Input from "./Input";
-import { loginUserContext } from "./App";
-import { useContext } from "react";
+
 import axios from "axios";
+import { withAlert, withUser } from "./withProvider";
 
 function callLoginApi(values, bag) {
   console.log("sending data", values.email, values.password, values.fullName);
@@ -23,7 +23,10 @@ function callLoginApi(values, bag) {
       bag.props.setUser(user);
     })
     .catch(() => {
-      console.log("Already have an account");
+      bag.props.setAlert({
+        type: "error",
+        message: "User Already exists" + values.password + values.email,
+      });
     });
 }
 
@@ -47,9 +50,10 @@ export function SignUp({
   touched,
   handleChange,
   handleBlur,
+  user,
 }) {
-  const user = useContext(loginUserContext);
-  console.log("data in props", values, errors);
+  // const user = useContext(loginUserContext)
+  // console.log("data in props", values, errors);
   if (user) {
     return <Navigate to="/" />;
   }
@@ -185,91 +189,4 @@ const myHOC = withFormik({
   validateOnMount: false,
 });
 const easySignup = myHOC(SignUp);
-export default easySignup;
-
-{
-  /* <div className="mt-3">
-  <Button type="submit">Signup</Button>
-  <div className="flex gap-2 mt-3">
-    <h1>Already have an Account? </h1>
-    <Link
-      className="font-bold text-primary-default hover:text-primary-dark"
-      to="/login"
-    >
-      Login
-    </Link>
-  </div>
-</div>; */
-}
-
-{
-  /* <div className="space-y-6">
-  <div>
-    <Input
-      values={values.fullName}
-      error={errors.fullName}
-      touched={touched.fullName}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      name="fullName"
-      id="id"
-      type="text"
-      placeholder="Full Name"
-      label="fullName"
-    />
-  </div>
-  <div>
-    <Input
-      values={values.email}
-      error={errors.email}
-      touched={touched.email}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      id="email"
-      name="email"
-      autoComplete="email"
-      placeholder="Enter Your Email"
-      type="email"
-      label="fullName"
-    />
-  </div>
-  <div>
-    <Input
-      values={values.number}
-      error={errors.number}
-      touched={touched.number}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      placeholder="Enter Mobile Number"
-      name="number"
-      id="number"
-    />
-  </div>
-  <div>
-    <Input
-      values={values.password}
-      error={errors.password}
-      touched={touched.password}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      placeholder="Create Password"
-      name="password"
-      id="password"
-      type="password"
-    />
-  </div>
-  <div>
-    <Input
-      values={values.confirm_password}
-      error={errors.confirm_password}
-      touched={touched.confirm_password}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      placeholder="Confirm Password"
-      name="confirm_password"
-      id="confirm_password"
-      type="password"
-    />
-  </div>
-</div>; */
-}
+export default withUser(withAlert(easySignup));

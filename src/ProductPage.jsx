@@ -4,17 +4,15 @@ import { getProductList } from "./Api";
 import NoMatching from "./NoMatching";
 import Loading from "./Loading";
 import { HiArrowNarrowRight } from "react-icons/hi";
-import { loginUserContext } from "./App";
-import { useContext } from "react";
+// import { loginUserContext } from "./Contexts";
+// import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import Button from "./Button";
+import { withUser } from "./withProvider";
 
-function ProductPage({ setUser }) {
-  const user = useContext(loginUserContext);
+function ProductPage({ setUser, user }) {
+  // const user = useContext(loginUserContext);
 
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -63,6 +61,9 @@ function ProductPage({ setUser }) {
     setSort(event.target.value);
   }
 
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
   return (
     <div className="max-w-6xl mx-auto bg-white shadow-2xl md:my-16 md:py-9 shadow-black">
       <div className="max-w-5xl mx-auto">
@@ -111,4 +112,4 @@ function ProductPage({ setUser }) {
     </div>
   );
 }
-export default ProductPage;
+export default withUser(ProductPage);
