@@ -4,14 +4,19 @@ import { getProductList } from "./Api";
 import NoMatching from "./NoMatching";
 import Loading from "./Loading";
 import { HiArrowNarrowRight } from "react-icons/hi";
-// import { loginUserContext } from "./Contexts";
-// import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import Button from "./Button";
-import { withUser } from "./withProvider";
+import { withAlert, withUser } from "./withProvider";
 
-function ProductPage({ setUser, user }) {
-  // const user = useContext(loginUserContext);
+function ProductPage({ setUser, user, setAlert }) {
+  // useEffect(
+  //   function () {
+  //     setAlert({
+  //       type: "success",
+  //       message: "Congratulations",
+  //     });
+  //   }[user]
+  // );
 
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,6 +36,10 @@ function ProductPage({ setUser, user }) {
       if (products) {
         setProductList(products);
         setLoading(false);
+        setAlert({
+          type: "success",
+          message: "Congratulations",
+        });
       }
     });
   }, []);
@@ -112,4 +121,4 @@ function ProductPage({ setUser, user }) {
     </div>
   );
 }
-export default withUser(ProductPage);
+export default withUser(withAlert(ProductPage));

@@ -1,12 +1,30 @@
 import React, { useContext } from "react";
 import { Alertcontext, loginUserContext } from "./Contexts";
 
-const withProvider = (provider) => (IncomingComponent) => (props) => {
-  const contextData = useContext(provider);
-  return <IncomingComponent {...props} {...contextData} />;
-};
+function withProvider(provider) {
+  function MyHOC(IncomingComponent) {
+    function OutgoingComponent(props) {
+      const contextData = useContext(provider);
+      return <IncomingComponent {...props} {...contextData} />;
+    }
+    return OutgoingComponent;
+  }
+  return MyHOC;
+}
 
 export default withProvider;
-
 export const withAlert = withProvider(Alertcontext);
 export const withUser = withProvider(loginUserContext);
+
+// import React, { useContext } from "react";
+// import { Alertcontext, loginUserContext } from "./Contexts";
+
+// const withProvider = (provider) => (IncomingComponent) => (props) => {
+//   const contextData = useContext(provider);
+//   return <IncomingComponent {...props} {...contextData} />;
+// };
+
+// export default withProvider;
+
+// export const withAlert = withProvider(Alertcontext);
+// export const withUser = withProvider(loginUserContext);
