@@ -11,7 +11,7 @@ import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import axios from "axios";
 import Loading from "./Loading";
-import UserRoute from "./UserRoute";
+// import UserRoute from "./UserRoute";
 import AlertCard from "./AlertCard.";
 import {
   cartContext,
@@ -83,39 +83,14 @@ function App() {
             <cartContext.Provider value={savedData}>
               <loginUserContext.Provider value={{ user, setUser }}>
                 <Routes>
-                  <Route
-                    index
-                    element={
-                      <UserRoute>
-                        <ProductPage user={user} />
-                      </UserRoute>
-                    }
-                  />
+                  <Route index element={<ProductPage user={user} />} />
                   <Route
                     path="/Products/:id"
-                    element={
-                      <UserRoute>
-                        <Details onAddToCart={handleCartChange} />
-                      </UserRoute>
-                    }
+                    element={<Details onAddToCart={handleCartChange} />}
                   />
-                  <Route
-                    path="*"
-                    element={
-                      <UserRoute>
-                        <NotFound />
-                      </UserRoute>
-                    }
-                  />
+                  <Route path="*" element={<NotFound />} />
 
-                  <Route
-                    path="/cart"
-                    element={
-                      <UserRoute>
-                        <CartPage />
-                      </UserRoute>
-                    }
-                  />
+                  <Route path="/cart" element={<CartPage />} />
 
                   <Route
                     path="/login"
@@ -126,14 +101,7 @@ function App() {
                     element={<SignUp setUser={setUser} user={user} />}
                   />
                   <Route path="/forgot" element={<ForgotPassword />} />
-                  <Route
-                    path="/"
-                    element={
-                      <UserRoute>
-                        <ProductPage setUser={setUser} />
-                      </UserRoute>
-                    }
-                  />
+                  <Route path="/" element={<ProductPage setUser={setUser} />} />
                 </Routes>
               </loginUserContext.Provider>
             </cartContext.Provider>

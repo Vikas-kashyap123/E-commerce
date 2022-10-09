@@ -6,10 +6,8 @@ import Loading from "./Loading";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { loginUserContext } from "./Contexts";
 import { useContext } from "react";
-
-import Button from "./Button";
-
 import { Navigate } from "react-router-dom";
+import Button from "./Button";
 
 function ProductPage({ setUser }) {
   const user = useContext(loginUserContext);
@@ -25,17 +23,16 @@ function ProductPage({ setUser }) {
     setUser(undefined);
   };
 
-  useEffect(
-    function () {
-      const xyz = getProductList(id);
+  useEffect(function () {
+    const xyz = getProductList();
 
-      xyz.then(function (products) {
+    xyz.then(function (products) {
+      if (products) {
         setProductList(products);
         setLoading(false);
-      });
-    },
-    [id]
-  );
+      }
+    });
+  }, []);
 
   let data = productList.filter(function (item) {
     const LowerCaseTitle = item.title.toLowerCase();
@@ -64,12 +61,11 @@ function ProductPage({ setUser }) {
   }
 
   if (!user) {
-    return <Navigate to="login" />;
+    return <Navigate to="/login" />;
   }
-
   return (
     <div className="max-w-6xl mx-auto bg-white shadow-2xl md:my-16 md:py-9 shadow-black">
-      <div className="max-w-5xl px-6 mx-auto">
+      <div className="max-w-5xl mx-auto">
         <h2 className="mb-3 text-center sm:text-left">Home/Shop</h2>
         <h1 className="text-3xl text-center text-primary-default mb-7 sm:text-left">
           Shop
