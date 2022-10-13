@@ -9,7 +9,7 @@ import Loading from "./Loading";
 import { range } from "lodash";
 import { Link, useSearchParams } from "react-router-dom";
 
-function ProductPage({ setUser, setAlert }) {
+function ProductPage({ setUser, setAlert, user }) {
   const [productData, setProductData] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -22,7 +22,7 @@ function ProductPage({ setUser, setAlert }) {
   sort = sort || "default";
   page = +page || 1;
 
-  const handleChange = () => {
+  const handleLogout = () => {
     localStorage.removeItem("token");
     setUser(undefined);
   };
@@ -93,8 +93,10 @@ function ProductPage({ setUser, setAlert }) {
             {range(1, productData.meta.last_page + 1).map((pageNumber) => (
               <Link
                 className={
-                  " px-2 py-1 m-1 text-white " +
-                  (pageNumber == page ? "bg-primary-default" : "bg-indigo-600")
+                  " w-10 h-10 text-center border border-primary-dark hover:bg-primary-dark hover:text-white " +
+                  (pageNumber == page
+                    ? "bg-primary-default text-white"
+                    : "bg-white text-primary-default ")
                 }
                 key={pageNumber}
                 to={"?" + new URLSearchParams({ ...params, page: pageNumber })}
@@ -104,7 +106,7 @@ function ProductPage({ setUser, setAlert }) {
             ))}
           </div>
           <div className="my-12">
-            <Button onClick={handleChange}>Logout</Button>
+            <Button onClick={handleLogout}>Logout</Button>
           </div>
         </div>
       </div>
@@ -133,28 +135,4 @@ export default withUser(withAlert(ProductPage));
 //    return LowerCaseTitle.indexOf(LowerCaseQuery) != -1;
 //  });
 
-//  setAlert({
-//    type: "success",
-//    message: "Welcome to DreamBuy",
-//  });
-
-/* <div className="flex gap-1 my-12">
-            <div
-              onClick={() => setPage(1)}
-              className="w-10 h-10 text-center text-white bg-primary-default"
-            >
-              1
-            </div>
-            <div
-              onClick={() => setPage(2)}
-              className="w-10 h-10 text-center border text-primary-default border-primary-dark hover:bg-primary-dark hover:text-white"
-            >
-              2
-            </div>
-            <div
-              onClick={() => setPage(3)}
-              className="w-10 h-10 text-center border text-primary-default border-primary-default hover:bg-primary-default hover:text-white"
-            >
-              <HiArrowNarrowRight />
-            </div>
-          </div> */
+//
