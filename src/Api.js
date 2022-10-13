@@ -8,26 +8,28 @@ export function getProductData(id) {
     });
 }
 
-export function getProductList() {
-  return axios.get("https://dummyjson.com/products").then(function (response) {
-    return response.data.products;
-  });
-}
+export function getProductList(sortBy, search, page, sortType) {
+  let params = {};
 
-export function loginApi() {
+  if (sortBy) {
+    params.sortBy = sortBy;
+  }
+  if (sortType) {
+    params.sortType = sortType;
+  }
+  if (search) {
+    params.search = search;
+  }
+  if (page) {
+    params.page = page;
+  }
+
   return axios
-    .post("https://myeasykart.codeyogi.io/login", {
-      email: values.email,
-      password: values.password,
+    .get("https://myeasykart.codeyogi.io/products", {
+      params,
     })
-    .then((response) => {
-      const { user, token } = response.data;
-      localStorage.setItem("token", token);
-      console.log("MyData", bag);
-      bag.props.setUser(user);
-    })
-    .catch(() => {
-      console.log("Invalid Credentials");
+    .then(function (response) {
+      return response.data;
     });
 }
 
@@ -39,3 +41,7 @@ export function loginApi() {
 //fetch individual product
 //path carts/1
 // method = get
+
+// headers: {
+//   Authorization: localStorage.getItem("token"),
+// }

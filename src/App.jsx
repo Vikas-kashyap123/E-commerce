@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
@@ -9,43 +9,16 @@ import CartPage from "./CartPage";
 import LoginPage from "./LoginPage";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
-import axios from "axios";
-import Loading from "./Loading";
 import AlertCard from "./AlertCard";
-import {
-  cartContext,
-  updateContext,
-  loginUserContext,
-  Alertcontext,
-} from "./Contexts";
+import { cartContext, updateContext } from "./Contexts";
+import UserRoute from "./UserRoute";
+import AuthRoute from "./AuthRoute";
+import UserProvider from "./providers/UserProvider";
+import AlertProvider from "./providers/AlertProvider";
 
 function App() {
   const savedDataString = localStorage.getItem("my-cart") || "{}";
   const savedData = JSON.parse(savedDataString);
-  const [user, setUser] = useState();
-  const [loadingUser, setLoadingUser] = useState(true);
-  const [alert, setAlert] = useState();
-
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    if (token) {
-      axios
-        .get("https://myeasykart.codeyogi.io/me", {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((response) => {
-          setUser(response.data);
-          setLoadingUser(false);
-        });
-    } else {
-      setLoadingUser(false);
-    }
-  }, []);
-
-  console.log("logged in user is", user);
 
   // console.log("savedData", savedData);
   const [cart, setCart] = useState(savedData);
@@ -65,41 +38,80 @@ function App() {
     return previous + cart[current];
   }, 0);
 
-  if (loadingUser) {
-    return <Loading />;
-  }
-  const handleAlertRemove = () => {
-    setAlert(undefined);
-  };
-
   return (
     <div className="flex flex-col h-screen p-2 overflow-scroll bg-gray-default">
       <Navbar productCount={totalCount} />
       <div className="grow">
-        <Alertcontext.Provider value={{ alert, setAlert, handleAlertRemove }}>
+        <AlertProvider>
           <AlertCard />
           <updateContext.Provider value={updateCart}>
             <cartContext.Provider value={savedData}>
-              <loginUserContext.Provider value={{ user, setUser }}>
+              <UserProvider>
                 <Routes>
-                  <Route index element={<ProductPage user={user} />} />
+                  <Route
+                    index
+                    element={
+                      <UserRoute>
+                        <ProductPage />
+                      </UserRoute>
+                    }
+                  />
                   <Route
                     path="/Products/:id"
-                    element={<Details onAddToCart={handleCartChange} />}
+                    element={
+                      <UserRoute>
+                        <Details onAddToCart={handleCartChange} />
+                      </UserRoute>
+                    }
                   />
                   <Route path="*" element={<NotFound />} />
 
-                  <Route path="/cart" element={<CartPage />} />
+                  <Route
+                    path="/cart"
+                    element={
+                      <UserRoute>
+                        <CartPage />
+                      </UserRoute>
+                    }
+                  />
 
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/signup" element={<SignUp />} />
-                  <Route path="/forgot" element={<ForgotPassword />} />
-                  <Route path="/" element={<ProductPage setUser={setUser} />} />
+                  <Route
+                    path="/login"
+                    element={
+                      <AuthRoute>
+                        <LoginPage />
+                      </AuthRoute>
+                    }
+                  />
+                  <Route
+                    path="/signup"
+                    element={
+                      <AuthRoute>
+                        <SignUp />
+                      </AuthRoute>
+                    }
+                  />
+                  <Route
+                    path="/forgot"
+                    element={
+                      <AuthRoute>
+                        <ForgotPassword />
+                      </AuthRoute>
+                    }
+                  />
+                  {/* <Route
+                    path="/"
+                    element={
+                      <UserRoute>
+                        <ProductPage setUser={setUser} />
+                      </UserRoute>
+                    }
+                  /> */}
                 </Routes>
-              </loginUserContext.Provider>
+              </UserProvider>
             </cartContext.Provider>
           </updateContext.Provider>
-        </Alertcontext.Provider>
+        </AlertProvider>
       </div>
       <Footer />
     </div>

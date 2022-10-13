@@ -2,77 +2,64 @@ import React, { useState, useEffect } from "react";
 import ProductList from "./ProductList";
 import { getProductList } from "./Api";
 import NoMatching from "./NoMatching";
-import Loading from "./Loading";
-import { HiArrowNarrowRight } from "react-icons/hi";
-import { Navigate } from "react-router-dom";
+// import { HiArrowNarrowRight } from "react-icons/hi";
 import Button from "./Button";
 import { withAlert, withUser } from "./withProvider";
+import Loading from "./Loading";
+import { range } from "lodash";
+import { Link, useSearchParams } from "react-router-dom";
 
-function ProductPage({ setUser, user, setAlert }) {
-  // useEffect(
-  //   function () {
-  //     setAlert({
-  //       type: "success",
-  //       message: "Congratulations",
-  //     });
-  //   }[user]
-  // );
-
-  const [productList, setProductList] = useState([]);
+function ProductPage({ setUser, setAlert }) {
+  const [productData, setProductData] = useState();
   const [loading, setLoading] = useState(true);
 
-  const [query, setQuery] = useState("");
-  const [sort, setSort] = useState("default");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const params = Object.fromEntries([...searchParams]);
+  let { query, sort, page } = params;
+
+  query = query || "";
+  sort = sort || "default";
+  page = +page || 1;
 
   const handleChange = () => {
     localStorage.removeItem("token");
     setUser(undefined);
   };
 
-  useEffect(function () {
-    const xyz = getProductList();
+  useEffect(
+    function () {
+      let sortType;
+      let sortBy;
 
-    xyz.then(function (products) {
-      if (products) {
-        setProductList(products);
-        setLoading(false);
-        setAlert({
-          type: "success",
-          message: "Welcome to DreamBuy",
-        });
+      if (sort == "title") {
+        sortBy = "title";
+      } else if (sort == "LTH") {
+        sortBy = "price";
+      } else if (sort == "HTL") {
+        sortBy = "price";
+        sortType = "desc";
       }
-    });
-  }, []);
 
-  let data = productList.filter(function (item) {
-    const LowerCaseTitle = item.title.toLowerCase();
-    const LowerCaseQuery = query.toLowerCase();
-    return LowerCaseTitle.indexOf(LowerCaseQuery) != -1;
-  });
-  if (sort == "lth") {
-    data.sort(function (x, y) {
-      return x.price - y.price;
-    });
-  } else if (sort == "htl") {
-    data.sort(function (x, y) {
-      return y.price - x.price;
-    });
-  } else if (sort == "title") {
-    data.sort(function (x, y) {
-      return x.title < y.title ? -1 : 1;
-    });
-  }
+      getProductList(sortBy, query, page, sortType).then(function (xyz) {
+        setProductData(xyz);
+        setLoading(false);
+      });
+    },
+    [sort, query, page]
+  );
 
   function handleQueryChange(event) {
-    setQuery(event.target.value);
+    setSearchParams({ ...params, query: event.target.value, page: 1 });
   }
   function handleSortChange(event) {
-    setSort(event.target.value);
+    setSearchParams({ ...params, sort: event.target.value });
   }
 
-  if (!user) {
-    return <Navigate to="/login" />;
+  if (loading) {
+    return <Loading />;
   }
+
   return (
     <div className="max-w-6xl px-3 mx-auto bg-white shadow-2xl md:my-16 md:py-9 shadow-black">
       <div className="max-w-5xl mx-auto">
@@ -93,25 +80,28 @@ function ProductPage({ setUser, user, setAlert }) {
           >
             <option value="default">Default sort </option>
             <option value="title">Sort by title</option>
-            <option className="text-primary-dark" value="lth">
-              Sort by price: low to high
-            </option>
-            <option value="htl">Sort by price: high to low</option>
+            <option value="LTH">Sort by price: low to high</option>
+            <option value="HTL">Sort by price: high to low</option>
           </select>
         </div>
-        {data.length > 0 && <ProductList products={data} />}
-        {(loading && <Loading />) || (data.length == 0 && <NoMatching />)}
+        {productData.data.length > 0 && (
+          <ProductList products={productData.data} />
+        )}
+        {productData.data.length == 0 && <NoMatching />}
         <div className="flex justify-between">
           <div className="flex gap-1 my-12">
-            <div className="w-10 h-10 text-center text-white bg-primary-default">
-              1
-            </div>
-            <div className="w-10 h-10 text-center border text-primary-default border-primary-dark hover:bg-primary-dark hover:text-white">
-              2
-            </div>
-            <div className="w-10 h-10 text-center border text-primary-default border-primary-default hover:bg-primary-default hover:text-white">
-              <HiArrowNarrowRight />
-            </div>
+            {range(1, productData.meta.last_page + 1).map((pageNumber) => (
+              <Link
+                className={
+                  " px-2 py-1 m-1 text-white " +
+                  (pageNumber == page ? "bg-primary-default" : "bg-indigo-600")
+                }
+                key={pageNumber}
+                to={"?" + new URLSearchParams({ ...params, page: pageNumber })}
+              >
+                {pageNumber}
+              </Link>
+            ))}
           </div>
           <div className="my-12">
             <Button onClick={handleChange}>Logout</Button>
@@ -122,3 +112,49 @@ function ProductPage({ setUser, user, setAlert }) {
   );
 }
 export default withUser(withAlert(ProductPage));
+
+// if (sort == "lth") {
+//   data.sort(function (x, y) {
+//     return x.price - y.price;
+//   });
+// } else if (sort == "htl") {
+//   data.sort(function (x, y) {
+//     return y.price - x.price;
+//   });
+// } else if (sort == "title") {
+//   data.sort(function (x, y) {
+//     return x.title < y.title ? -1 : 1;
+//   });
+// }
+
+//  let data = productList.filter(function (item) {
+//    const LowerCaseTitle = item.title.toLowerCase();
+//    const LowerCaseQuery = query.toLowerCase();
+//    return LowerCaseTitle.indexOf(LowerCaseQuery) != -1;
+//  });
+
+//  setAlert({
+//    type: "success",
+//    message: "Welcome to DreamBuy",
+//  });
+
+/* <div className="flex gap-1 my-12">
+            <div
+              onClick={() => setPage(1)}
+              className="w-10 h-10 text-center text-white bg-primary-default"
+            >
+              1
+            </div>
+            <div
+              onClick={() => setPage(2)}
+              className="w-10 h-10 text-center border text-primary-default border-primary-dark hover:bg-primary-dark hover:text-white"
+            >
+              2
+            </div>
+            <div
+              onClick={() => setPage(3)}
+              className="w-10 h-10 text-center border text-primary-default border-primary-default hover:bg-primary-default hover:text-white"
+            >
+              <HiArrowNarrowRight />
+            </div>
+          </div> */

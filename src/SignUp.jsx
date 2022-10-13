@@ -54,9 +54,9 @@ export function SignUp({
 }) {
   // const user = useContext(loginUserContext)
   // console.log("data in props", values, errors);
-  if (user) {
-    return <Navigate to="/" />;
-  }
+  // if (user) {
+  //   return <Navigate to="/" />;
+  // }
 
   return (
     <div className="h-full max-w-6xl mx-auto mt-4 text-2xl bg-white md:mt-16 ">

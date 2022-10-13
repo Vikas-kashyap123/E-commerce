@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Product({ thumbnail, category, title, price, id }) {
   return (
-    <div>
+    <div key={id}>
       <Link to={"/Products/" + id}>
         <div className="w-full h-full shadow-2xl shadow-black">
           <div className=" aspect-square">

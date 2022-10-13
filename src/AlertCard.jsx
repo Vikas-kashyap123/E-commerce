@@ -43,9 +43,7 @@ function AlertCard({ alert, handleAlertRemove }) {
           color
         }
       >
-        <div
-          className="flex items-center justify-center w-16 h-full text-center bg-gray-500 border border-primary-default md:w-10"
-        >
+        <div className="flex items-center justify-center w-16 h-full text-center bg-gray-500 border border-primary-default md:w-10">
           <Icon className="text-3xl text-primary-default" />
         </div>
         <div>
