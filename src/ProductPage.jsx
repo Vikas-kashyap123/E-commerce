@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import ProductList from "./ProductList";
 import { getProductList } from "./Api";
 import NoMatching from "./NoMatching";
-// import { HiArrowNarrowRight } from "react-icons/hi";
 import Button from "./Button";
 import { withAlert, withUser } from "./withProvider";
 import Loading from "./Loading";
 import { range } from "lodash";
 import { Link, useSearchParams } from "react-router-dom";
+import { HiArrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 
 function ProductPage({ setUser, setAlert, user }) {
   const [productData, setProductData] = useState();
@@ -26,6 +26,16 @@ function ProductPage({ setUser, setAlert, user }) {
     localStorage.removeItem("token");
     setUser(undefined);
   };
+
+  useEffect(
+    function () {
+      setAlert({
+        type: "success",
+        message: "Welcome to Dream buy",
+      });
+    },
+    [user]
+  );
 
   useEffect(
     function () {
@@ -90,6 +100,14 @@ function ProductPage({ setUser, setAlert, user }) {
         {productData.data.length == 0 && <NoMatching />}
         <div className="flex justify-between">
           <div className="flex gap-1 my-12">
+            {page > 1 && (
+              <Link
+                to={"?page=" + (page - 1)}
+                className="w-10 h-10 text-center border border-primary-dark hover:bg-primary-dark hover:text-white"
+              >
+                <HiArrowLeft />
+              </Link>
+            )}
             {range(1, productData.meta.last_page + 1).map((pageNumber) => (
               <Link
                 className={
@@ -104,6 +122,14 @@ function ProductPage({ setUser, setAlert, user }) {
                 {pageNumber}
               </Link>
             ))}
+            {page < productData.meta.last_page && (
+              <Link
+                to={"?page=" + (page + 1)}
+                className="w-10 h-10 text-center border border-primary-dark hover:bg-primary-dark hover:text-white"
+              >
+                <HiArrowNarrowRight />
+              </Link>
+            )}
           </div>
           <div className="my-12">
             <Button onClick={handleLogout}>Logout</Button>
@@ -135,4 +161,11 @@ export default withUser(withAlert(ProductPage));
 //    return LowerCaseTitle.indexOf(LowerCaseQuery) != -1;
 //  });
 
-//
+//{page > 1 && (
+//   <Link
+//     className="w-10 h-10 text-center border border-primary-dark hover:bg-primary-dark hover:text-white"
+//     to={"?" + new URLSearchParams({ ...params, page: pageNumber })}
+//   >
+//     <HiArrowLeft />
+//   </Link>
+// )}
