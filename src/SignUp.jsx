@@ -2,7 +2,7 @@ import React from "react";
 import { withFormik } from "formik";
 import Button from "./Button";
 import * as Yup from "yup";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Input from "./Input";
 
 import axios from "axios";
@@ -21,6 +21,7 @@ function callLoginApi(values, bag) {
       localStorage.setItem("token", token);
       console.log("MyData", bag);
       bag.props.setUser(user);
+      bag.props.setMyName(values.fullName);
     })
     .catch(() => {
       bag.props.setAlert({

@@ -7,6 +7,7 @@ function UserProvider({ children }) {
   const [user, setUser] = useState();
   const token = localStorage.getItem("token");
   const [loadingUser, setLoadingUser] = useState(true);
+  const [myName, setMyName] = useState("");
 
   useEffect(() => {
     if (token) {
@@ -34,7 +35,7 @@ function UserProvider({ children }) {
   }
 
   return (
-    <loginUserContext.Provider value={{ user, setUser }}>
+    <loginUserContext.Provider value={{ user, setUser, setMyName, myName }}>
       {children}
     </loginUserContext.Provider>
   );

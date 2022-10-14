@@ -20,8 +20,8 @@ function App() {
   const savedDataString = localStorage.getItem("my-cart") || "{}";
   const savedData = JSON.parse(savedDataString);
 
-  // console.log("savedData", savedData);
   const [cart, setCart] = useState(savedData);
+  const [myName, setMyName] = useState("");
 
   function handleCartChange(productId, count) {
     const oldCount = cart[productId] || 0;

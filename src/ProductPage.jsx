@@ -9,7 +9,7 @@ import { range } from "lodash";
 import { Link, useSearchParams } from "react-router-dom";
 import { HiArrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 
-function ProductPage({ setUser, setAlert, user }) {
+function ProductPage({ setUser, setAlert, user, myName }) {
   const [productData, setProductData] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +31,7 @@ function ProductPage({ setUser, setAlert, user }) {
     function () {
       setAlert({
         type: "success",
-        message: "Welcome to Dream buy",
+        message: "Welcome to Dream buy " + myName,
       });
     },
     [user]
@@ -75,7 +75,7 @@ function ProductPage({ setUser, setAlert, user }) {
       <div className="max-w-5xl mx-auto">
         <h2 className="mb-3 text-center sm:text-left">Home/Shop</h2>
         <h1 className="text-3xl text-center text-primary-default mb-7 sm:text-left">
-          Shop
+          Hello {myName}
         </h1>
         <div className="pl-1 md:flex md:justify-between ">
           <input
