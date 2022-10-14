@@ -98,7 +98,7 @@ function ProductPage({ setUser, setAlert, user }) {
           <ProductList products={productData.data} />
         )}
         {productData.data.length == 0 && <NoMatching />}
-        <div className="flex justify-between">
+        <div className="flex flex-col sm:flex-row sm:justify-between">
           <div className="flex gap-1 my-12">
             {page > 1 && (
               <Link
@@ -131,7 +131,7 @@ function ProductPage({ setUser, setAlert, user }) {
               </Link>
             )}
           </div>
-          <div className="my-12">
+          <div className="sm:my-12">
             <Button onClick={handleLogout}>Logout</Button>
           </div>
         </div>
