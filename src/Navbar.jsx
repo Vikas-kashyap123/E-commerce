@@ -3,8 +3,9 @@ import { BsMinecartLoaded } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import MobileMenu from "./MobileMenu";
+import { withCart } from "./withProvider";
 
-function Navbar({ productCount }) {
+function Navbar({ totalCount }) {
   const [isMenuOpen, setMenuOpen] = useState(false);
   function handleMenuOpeneClick() {
     setMenuOpen(!isMenuOpen);
@@ -44,7 +45,7 @@ function Navbar({ productCount }) {
                 <div className="flex flex-col items-center justify-center">
                   <BsMinecartLoaded className="pb-1 text-4xl text-primary-default hover:text-primary-dark" />
                   <span className="-m-8 text-primary-default hover:text-primary-dark">
-                    {productCount}
+                    {totalCount}
                   </span>
                 </div>
               </Link>
@@ -62,4 +63,4 @@ function Navbar({ productCount }) {
     </div>
   );
 }
-export default Navbar;
+export default withCart(Navbar);

@@ -4,12 +4,9 @@ import { ImSpinner3 } from "react-icons/im";
 function Loading({ extraClass }) {
   return (
     <div
-      className={`flex flex-col items-center text-center justify-center my-auto font-bold text-primary-default md:text-8xl ${extraClass}`}
+      className={`flex items-center mx-auto h-full text-center justify-center font-bold text-primary-default md:text-8xl text-4xl ${extraClass}`}
     >
-      <div>
-        <ImSpinner3 className="animate-spin" />
-      </div>
-      <div></div>
+      <ImSpinner3 className="animate-spin" />
     </div>
   );
 }

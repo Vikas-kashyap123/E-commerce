@@ -7,6 +7,7 @@ function CartList({ items, localCart, setLocalCart }) {
       {items.map(function (props) {
         return (
           <CartRow
+            key={props.id}
             {...props}
             localCart={localCart}
             setLocalCart={setLocalCart}

@@ -1,16 +1,22 @@
 import React from "react";
-import { useContext } from "react";
-import { cartContext, updateContext } from "./Contexts";
 
-function CartRow({ thumbnail, title, price, id, localCart, setLocalCart }) {
-  const cartData = useContext(cartContext);
-  const updateCart = useContext(updateContext);
+import { withCart } from "./withProvider";
 
+function CartRow({
+  thumbnail,
+  title,
+  price,
+  id,
+  localCart,
+  setLocalCart,
+  cart,
+  updateCart,
+}) {
   function handleDelete(event) {
     const productId = event.currentTarget.getAttribute("productid");
     console.log("product going to be removed is", productId);
 
-    const newCart = { ...cartData };
+    const newCart = { ...cart };
     delete newCart[productId];
     updateCart(newCart);
   }
@@ -64,10 +70,10 @@ function CartRow({ thumbnail, title, price, id, localCart, setLocalCart }) {
       </div>
       <div className="flex items-center justify-between h-10 px-2 border border-gray-default md:border-white">
         <h2 className=" md:hidden">subtotal</h2>
-        <h2 className="md:w-28">{price * cartData[id]}</h2>
+        <h2 className="md:w-28">{price * cart[id]}</h2>
       </div>
     </div>
   );
 }
 
-export default CartRow;
+export default withCart(CartRow);

@@ -2,44 +2,34 @@ import React, { useState } from "react";
 import CartList from "./CartList";
 import { HiArrowLeft } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import { getProductData } from "./Api";
+import { getProductsIds } from "./Api";
 import Loading from "./Loading";
-import { useContext } from "react";
-import { cartContext, updateContext } from "./Contexts";
 import { useEffect } from "react";
+import { withCart } from "./withProvider";
 
-function CartPage({ onItemChange }) {
+function CartPage({ onItemChange, updateCart, cart, cartData }) {
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(true);
 
-  const updateCart = useContext(updateContext);
-  const cartData = useContext(cartContext);
-  console.log("provider ka data", cartData);
-  const [localCart, setLocalCart] = useState(cartData);
-
-  const cartIds = Object.keys(cartData);
+  const [localCart, setLocalCart] = useState(cart);
 
   useEffect(
     function () {
       setLoading(true);
-      const promises = cartIds.map(function (productId) {
-        return getProductData(productId);
-      });
-      const bigPromise = Promise.all(promises);
-
-      bigPromise.then(function (products) {
+      const cartIds = Object.keys(cart);
+      getProductsIds(cartIds).then(function (products) {
         console.log("promises ka data", products);
         setProducts(products);
         setLoading(false);
       });
     },
-    [cartData]
+    [cart]
   );
   useEffect(
     function () {
-      setLocalCart(cartData);
+      setLocalCart(cart);
     },
-    [cartData]
+    [cart]
   );
 
   function handleUpdateCart() {
@@ -111,17 +101,4 @@ function CartPage({ onItemChange }) {
     </div>
   );
 }
-export default CartPage;
-{
-  /* 
-      <div className="flex items-center justify-between max-w-4xl ">
-        <h2>x</h2>
-        <div className="w-20">
-          <img src="https://trycasuals.com/wp-content/uploads/2018/06/tshirt6-4-300x300.jpg" />
-        </div>
-        <div className="text-primary-default">Fathers Day Coffee mug</div>
-        <h1>200</h1>
-        <h2>2</h2>
-        <h2>400</h2>
-      </div> */
-}
+export default withCart(CartPage);

@@ -5,8 +5,9 @@ import { HiArrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
 import NotFound from "./NotFound";
+import { withCart } from "./withProvider";
 
-function Details({ onAddToCart }) {
+function Details({ addToCart }) {
   //const params = useParams();
   // const id = params.id;
   // this can be written as
@@ -32,7 +33,7 @@ function Details({ onAddToCart }) {
   }
 
   function handleButtonClick() {
-    onAddToCart(id, count);
+    addToCart(id, count);
     setCount(1);
   }
 
@@ -117,4 +118,4 @@ function Details({ onAddToCart }) {
     </>
   );
 }
-export default Details;
+export default withCart(Details);
