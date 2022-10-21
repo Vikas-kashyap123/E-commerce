@@ -47,9 +47,14 @@ function Navbar({ cartCount, setUser, isLoggedIn }) {
   return (
     <div className="py-4 bg-white">
       <div className="flex justify-between max-w-6xl mx-auto item-center">
+        <img
+          className="hidden h-9 w-28 md:block "
+          src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
+        />
+
         <div>
           <GiHamburgerMenu
-            onMouseEnter={handleMenuOpeneClick}
+            onClick={handleMenuOpeneClick}
             className="pt-3 text-5xl hover:text-primary-dark md:hidden"
           />
           {isMenuOpen && <MobileMenu className="md:hidden" />}
@@ -116,7 +121,7 @@ function Navbar({ cartCount, setUser, isLoggedIn }) {
             </div>
             <div>
               <img
-                className="h-9 w-28 "
+                className="h-9 w-28 md:hidden "
                 src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
               />
             </div>
