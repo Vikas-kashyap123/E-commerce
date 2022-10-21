@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getCart, getProductsByIds, saveCart } from "../api";
+import { getCart, getProductsByIds, saveCart } from "../Api";
 import { CartContext } from "../Contexts";
 
 import { withUser } from "../withProvider";
 
 function CartProvider({ isLoggedIn, children }) {
   const [cart, setCart] = useState([]);
-  
 
   useEffect(function () {
     if (isLoggedIn) {
