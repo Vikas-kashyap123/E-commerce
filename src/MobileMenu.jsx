@@ -10,7 +10,7 @@ function MobileMenu({ setUser, isLoggedIn }) {
   };
 
   return (
-    <div className="absolute flex flex-col w-20 px-2 py-2 mr-10 space-y-4 bg-indigo-400 md:hidden">
+    <div className="absolute flex flex-col w-20 px-2 py-2 pr-10 space-y-4 bg-indigo-400 md:hidden">
       <Link to="/" className="mr-4 font-bold hover:text-primary-dark">
         Home
       </Link>

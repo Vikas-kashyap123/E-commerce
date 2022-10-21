@@ -115,8 +115,7 @@ function Navbar({ cartCount, setUser, isLoggedIn }) {
             <div>
               <GiHamburgerMenu
                 onMouseEnter={handleMenuOpeneClick}
-                onMouseLeave={() => setMenuOpen(false)}
-                className="pt-3 text-5xl hover:text-primary-dark md:hidden"
+                className="pt-3 mr-4 text-5xl hover:text-primary-dark md:hidden"
               />
               {isMenuOpen && <MobileMenu className="md:hidden" />}
             </div>
