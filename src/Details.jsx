@@ -48,9 +48,8 @@ function Details({ addToCart }) {
   return (
     <>
       <div className="pt-2 shadow-2xl shadow-black">
-        <Link className="ml-2 text-xl text-gray-500" to="/">
+        <Link className="ml-2 text-3xl font-bold text-indigo-500" to="/">
           <HiArrowLeft />
-          Home
         </Link>
         <div className="px-1 mx-1 bg-white md:flex md:px-32 md:pt-12 md:pb-8 sm:pb-4 md:mx-8">
           <img className="shadow-2xl md:w-1/2" src={product.thumbnail} />
@@ -94,10 +93,9 @@ function Details({ addToCart }) {
         <div>
           {id > 1 && (
             <Link
-              className="text-xl text-gray-600"
+              className="text-3xl font-bold text-gray-600"
               to={"/Products/" + (id - 1)}
             >
-              Previous
               <HiArrowLeft />
             </Link>
           )}
@@ -106,11 +104,10 @@ function Details({ addToCart }) {
         <div>
           {id < 100 && (
             <Link
-              className="text-xl text-gray-800"
+              className="text-3xl font-bold text-green-600"
               to={"/Products/" + (id + 1)}
             >
               <HiArrowNarrowRight />
-              Next
             </Link>
           )}
         </div>
