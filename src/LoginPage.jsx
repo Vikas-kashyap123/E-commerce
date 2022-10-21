@@ -50,12 +50,11 @@ export function LoginPage({
   touched,
   handleChange,
   handleBlur,
-  user,
   isLoggedIn,
 }) {
   console.log("data in props", values, errors);
 
-  if (user) {
+  if (isLoggedIn) {
     return <Navigate to="/" />;
   }
   // if (isLoggedIn) {
