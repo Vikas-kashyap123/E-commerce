@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import { withUser } from "./withProvider";
 
 function MobileMenu({ setUser, isLoggedIn }) {
@@ -10,38 +9,55 @@ function MobileMenu({ setUser, isLoggedIn }) {
   };
 
   return (
-    <div className="absolute flex flex-col w-20 px-2 py-2 pr-10 space-y-4 bg-indigo-400 md:hidden">
-      <Link to="/" className="mr-4 font-bold hover:text-primary-dark">
-        Home
-      </Link>
-      <Link to="/" className="mr-4 font-bold hover:text-primary-dark">
-        Products
-      </Link>
-      <Link to="/" className="mr-4 font-bold hover:text-primary-dark">
-        About
-      </Link>
-      <Link to="/" className="mr-4 font-bold hover:text-primary-dark">
-        Contact
-      </Link>
-      <Link to="/login" className="mr-4 font-bold hover:text-primary-dark">
-        Account
-      </Link>
-      {isLoggedIn ? (
-        <a
-          href="login"
-          onClick={handleLogout}
-          className="mr-4 font-black hover:text-primary-light text-primary-dark"
+    <div className="">
+      <div className="absolute flex flex-col px-3 py-2 space-y-4 overflow-auto bg-indigo-400 border border-indigo-800 rounded-sm md:hidden">
+        <Link
+          to="/"
+          className="font-bold border border-indigo-400 hover:text-primary-dark border-b-gray-500"
         >
-          Logout
-        </a>
-      ) : (
-        <a
-          href="login"
-          className="mr-4 font-black hover:text-primary-light text-primary-dark"
+          Home
+        </Link>
+        <Link
+          to="/"
+          className="font-bold border border-indigo-400 hover:text-primary-dark border-b-gray-500"
         >
-          Login
-        </a>
-      )}
+          Products
+        </Link>
+        <Link
+          to="/"
+          className="font-bold border border-indigo-400 hover:text-primary-dark border-b-gray-500"
+        >
+          About
+        </Link>
+        <Link
+          to="/"
+          className="font-bold border border-indigo-400 hover:text-primary-dark border-b-gray-500"
+        >
+          Contact
+        </Link>
+        <Link
+          to="/login"
+          className="font-bold border border-indigo-400 hover:text-primary-dark border-b-gray-500"
+        >
+          Account
+        </Link>
+        {isLoggedIn ? (
+          <a
+            href="login"
+            onClick={handleLogout}
+            className="font-black border-indigo-400 border-b-gray-500 hover:text-primary-light text-primary-dark"
+          >
+            Logout
+          </a>
+        ) : (
+          <a
+            href="login"
+            className="font-black border-indigo-400 border-b-gray-500 hover:text-primary-light text-primary-dark"
+          >
+            Login
+          </a>
+        )}
+      </div>
     </div>
   );
 }

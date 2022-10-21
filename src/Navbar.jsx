@@ -48,11 +48,13 @@ function Navbar({ cartCount, setUser, isLoggedIn }) {
     <div className="py-4 bg-white">
       <div className="flex justify-between max-w-6xl mx-auto item-center">
         <div>
-          <img
-            className="h-9 w-28 "
-            src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
+          <GiHamburgerMenu
+            onMouseEnter={handleMenuOpeneClick}
+            className="pt-3 text-5xl hover:text-primary-dark md:hidden"
           />
+          {isMenuOpen && <MobileMenu className="md:hidden" />}
         </div>
+
         <div className="flex gap-4">
           {links.map(({ link, id, Route }) => (
             <div key={id} className="hidden space-x-4 text-xl md:block ">
@@ -113,11 +115,10 @@ function Navbar({ cartCount, setUser, isLoggedIn }) {
               </Link>
             </div>
             <div>
-              <GiHamburgerMenu
-                onMouseEnter={handleMenuOpeneClick}
-                className="pt-3 mr-4 text-5xl hover:text-primary-dark md:hidden"
+              <img
+                className="h-9 w-28 "
+                src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
               />
-              {isMenuOpen && <MobileMenu className="md:hidden" />}
             </div>
           </div>
         </div>
