@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Button from "./Button";
+
 import { withUser } from "./withProvider";
 
 function MobileMenu({ setUser }) {
@@ -26,12 +26,13 @@ function MobileMenu({ setUser }) {
       <Link to="/login" className="font-bold hover:text-primary-dark">
         Account
       </Link>
-      <button
+      <a
+        href="login"
         onClick={handleLogout}
         className="font-black hover:text-primary-light text-primary-dark "
       >
         Logout
-      </button>
+      </a>
     </div>
   );
 }

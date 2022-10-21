@@ -3,9 +3,9 @@ import { BsMinecartLoaded } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import MobileMenu from "./MobileMenu";
-import { withCart } from "./withProvider";
+import { withCart, withUser } from "./withProvider";
 
-function Navbar({ cartCount }) {
+function Navbar({ cartCount, setUser }) {
   const [isMenuOpen, setMenuOpen] = useState(false);
   function handleMenuOpeneClick() {
     setMenuOpen(!isMenuOpen);
@@ -39,6 +39,11 @@ function Navbar({ cartCount }) {
     },
   ];
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(undefined);
+  };
+
   return (
     <div className="py-4 bg-white">
       <div className="flex justify-between max-w-6xl mx-auto item-center">
@@ -62,6 +67,13 @@ function Navbar({ cartCount }) {
               </Link>
             </div>
           ))}
+          <a
+            href="login"
+            onClick={handleLogout}
+            className="hidden text-xl font-bold md:block hover:text-primary-light text-primary-dark"
+          >
+            Logout
+          </a>
           {/* <div className="hidden space-x-4 text-xl md:block ">
             <Link className="hover:text-primary-dark" to="/">
               Home
@@ -104,4 +116,4 @@ function Navbar({ cartCount }) {
     </div>
   );
 }
-export default withCart(Navbar);
+export default withUser(withCart(Navbar));
