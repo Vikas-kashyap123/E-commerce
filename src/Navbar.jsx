@@ -5,7 +5,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import MobileMenu from "./MobileMenu";
 import { withCart, withUser } from "./withProvider";
 
-function Navbar({ cartCount, setUser }) {
+function Navbar({ cartCount, setUser, isLoggedIn }) {
   const [isMenuOpen, setMenuOpen] = useState(false);
   function handleMenuOpeneClick() {
     setMenuOpen(!isMenuOpen);
@@ -67,13 +67,22 @@ function Navbar({ cartCount, setUser }) {
               </Link>
             </div>
           ))}
-          <a
-            href="login"
-            onClick={handleLogout}
-            className="hidden text-xl font-bold md:block hover:text-primary-light text-primary-dark"
-          >
-            Logout
-          </a>
+          {isLoggedIn ? (
+            <a
+              href="login"
+              onClick={handleLogout}
+              className="hidden text-xl font-bold md:block hover:text-primary-light text-primary-dark"
+            >
+              Logout
+            </a>
+          ) : (
+            <a
+              href="login"
+              className="hidden text-xl font-bold md:block hover:text-primary-light text-primary-dark"
+            >
+              Login
+            </a>
+          )}
           {/* <div className="hidden space-x-4 text-xl md:block ">
             <Link className="hover:text-primary-dark" to="/">
               Home
@@ -105,7 +114,8 @@ function Navbar({ cartCount, setUser }) {
             </div>
             <div>
               <GiHamburgerMenu
-                onClick={handleMenuOpeneClick}
+                onMouseEnter={handleMenuOpeneClick}
+                onMouseLeave={() => setMenuOpen(false)}
                 className="pt-3 text-5xl hover:text-primary-dark md:hidden"
               />
               {isMenuOpen && <MobileMenu className="md:hidden" />}
