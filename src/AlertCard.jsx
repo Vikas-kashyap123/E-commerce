@@ -39,7 +39,7 @@ function AlertCard({ alert, handleAlertRemove }) {
     <div className="max-w-5xl mx-auto mb-2 bg-white border-4 border-primary-dark">
       <div
         className={
-          "flex items-center justify-between md:h-10 h-16 mx-auto text-center " +
+          " flex items-center justify-between md:h-10 h-16 mx-auto text-center " +
           color
         }
       >

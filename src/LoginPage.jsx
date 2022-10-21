@@ -6,6 +6,7 @@ import { Link, Navigate } from "react-router-dom";
 import Input from "./Input";
 import axios from "axios";
 import { withAlert, withUser } from "./withProvider";
+import Loading from "./Loading";
 
 function callLoginApi(values, bag) {
   console.log("sending data", values.email, values.password);
@@ -50,12 +51,16 @@ export function LoginPage({
   handleChange,
   handleBlur,
   user,
+  isLoggedIn,
 }) {
   console.log("data in props", values, errors);
 
   if (user) {
     return <Navigate to="/" />;
   }
+  // if (isLoggedIn) {
+  //   window.location.reload(false);
+  // }
 
   return (
     <div className="h-full max-w-6xl mx-auto mt-16 text-2xl bg-white ">
@@ -101,7 +106,10 @@ export function LoginPage({
           </div>
           <div className="flex flex-row ">
             <div className="mt-3">
-              <h1 className="text-sm font-bold text-gray-light">Remember me</h1>
+              <div className="flex">
+                <input type="checkbox" />
+                <p className="text-sm font-bold text-gray-light">Remember me</p>
+              </div>
               <div className="flex flex-col">
                 <Button type="submit">LOG IN</Button>
                 <Link

@@ -5,11 +5,39 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import MobileMenu from "./MobileMenu";
 import { withCart } from "./withProvider";
 
-function Navbar({ totalCount }) {
+function Navbar({ cartCount }) {
   const [isMenuOpen, setMenuOpen] = useState(false);
   function handleMenuOpeneClick() {
     setMenuOpen(!isMenuOpen);
   }
+
+  const links = [
+    {
+      id: 1,
+      link: "Home",
+      Route: "/",
+    },
+    {
+      id: 2,
+      link: "Products",
+      Route: "/",
+    },
+    {
+      id: 3,
+      link: "About",
+      Route: "/",
+    },
+    {
+      id: 4,
+      link: "Contact",
+      Route: "/",
+    },
+    {
+      id: 5,
+      link: "Account",
+      Route: "login",
+    },
+  ];
 
   return (
     <div className="py-4 bg-white">
@@ -21,7 +49,20 @@ function Navbar({ totalCount }) {
           />
         </div>
         <div className="flex gap-4">
-          <div className="hidden space-x-4 text-xl md:block ">
+          {links.map(({ link, id, Route }) => (
+            <div key={id} className="hidden space-x-4 text-xl md:block ">
+              <Link
+                className={
+                  "hover:text-primary-dark " +
+                  (link == links[id] ? "text-primary-default" : "text-gray-500")
+                }
+                to={Route}
+              >
+                {link}
+              </Link>
+            </div>
+          ))}
+          {/* <div className="hidden space-x-4 text-xl md:block ">
             <Link className="hover:text-primary-dark" to="/">
               Home
             </Link>
@@ -37,7 +78,7 @@ function Navbar({ totalCount }) {
             <Link className="hover:text-primary-dark" to="/login">
               Account
             </Link>
-          </div>
+          </div> */}
 
           <div className="flex gap-4">
             <div>
@@ -45,7 +86,7 @@ function Navbar({ totalCount }) {
                 <div className="flex flex-col items-center justify-center">
                   <BsMinecartLoaded className="pb-1 text-4xl text-primary-default hover:text-primary-dark" />
                   <span className="-m-8 text-primary-default hover:text-primary-dark">
-                    {totalCount}
+                    {cartCount}
                   </span>
                 </div>
               </Link>

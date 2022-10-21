@@ -6,7 +6,7 @@ import Button from "./Button";
 import { withAlert, withUser } from "./withProvider";
 import Loading from "./Loading";
 import { range } from "lodash";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { HiArrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 
 function ProductPage({ setUser, setAlert, user, myName }) {
@@ -66,6 +66,10 @@ function ProductPage({ setUser, setAlert, user, myName }) {
     setSearchParams({ ...params, sort: event.target.value });
   }
 
+  const refreshPage = () => {
+    window.location.reload(false);
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -77,6 +81,12 @@ function ProductPage({ setUser, setAlert, user, myName }) {
         <h1 className="text-3xl text-center text-primary-default mb-7 sm:text-left">
           Hello {myName}
         </h1>
+        <button
+          className="px-2 py-1 font-bold text-white bg-indigo-400 rounded-md hover:bg-indigo-700"
+          onClick={refreshPage}
+        >
+          Refresh
+        </button>
         <div className="pl-1 md:flex md:justify-between ">
           <input
             value={query}
@@ -131,9 +141,17 @@ function ProductPage({ setUser, setAlert, user, myName }) {
               </Link>
             )}
           </div>
-          <div className="sm:my-12">
-            <Button onClick={handleLogout}>Logout</Button>
-          </div>
+          {user && (
+            <div className="sm:my-12">
+              <a
+                className="px-3 py-2 font-bold rounded-md bg-primary-default hover:bg-primary-dark "
+                href="login"
+                onClick={handleLogout}
+              >
+                Logout
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </div>

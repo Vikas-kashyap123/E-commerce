@@ -8,12 +8,12 @@ export function getProductData(id) {
     });
 }
 
-export function getProductsIds(ids) {
-  const commaSeperatedIds = ids.join();
+export function getProductsByIds(ids) {
+  const commaSepeartedIds = ids.join();
   return axios
     .get("https://myeasykart.codeyogi.io/products/bulk", {
       params: {
-        ids: commaSeperatedIds,
+        ids: commaSepeartedIds,
       },
     })
     .then(function (response) {
@@ -27,12 +27,15 @@ export function getProductList(sortBy, search, page, sortType) {
   if (sortBy) {
     params.sortBy = sortBy;
   }
+
   if (sortType) {
     params.sortType = sortType;
   }
+
   if (search) {
     params.search = search;
   }
+
   if (page) {
     params.page = page;
   }
@@ -46,15 +49,30 @@ export function getProductList(sortBy, search, page, sortType) {
     });
 }
 
-// base url = https://dummyjson.com/
-//fetch product list
-// path = carts
-// method = get
+export function saveCart(cart) {
+  return axios
+    .post(
+      "https://myeasykart.codeyogi.io/carts",
+      { data: cart },
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    )
+    .then(function (response) {
+      return response.data;
+    });
+}
 
-//fetch individual product
-//path carts/1
-// method = get
-
-// headers: {
-//   Authorization: localStorage.getItem("token"),
-// }
+export function getCart() {
+  return axios
+    .get("https://myeasykart.codeyogi.io/carts", {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    })
+    .then(function (response) {
+      return response.data;
+    });
+}

@@ -10,9 +10,8 @@ import LoginPage from "./LoginPage";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import AlertCard from "./AlertCard";
-
-import UserRoute from "./UserRoute";
-import AuthRoute from "./AuthRoute";
+// import UserRoute from "./UserRoute";
+// import AuthRoute from "./AuthRoute";
 import UserProvider from "./providers/UserProvider";
 import AlertProvider from "./providers/AlertProvider";
 import CartProvider from "./providers/CartProvider";
@@ -23,60 +22,17 @@ function App() {
       <UserProvider>
         <CartProvider>
           <AlertProvider>
-            <AlertCard />
-
             <Navbar />
+            <AlertCard />
             <div className="grow">
               <Routes>
-                <Route
-                  index
-                  element={
-                    <UserRoute>
-                      <ProductPage />
-                    </UserRoute>
-                  }
-                />
-                <Route
-                  path="/Products/:id"
-                  element={
-                    <UserRoute>
-                      <Details />
-                    </UserRoute>
-                  }
-                />
+                <Route index element={<ProductPage />} />
+                <Route path="/Products/:id" element={<Details />} />
                 <Route path="*" element={<NotFound />} />
-                <Route
-                  path="/cart"
-                  element={
-                    <UserRoute>
-                      <CartPage />
-                    </UserRoute>
-                  }
-                />
-                <Route
-                  path="/login"
-                  element={
-                    <AuthRoute>
-                      <LoginPage />
-                    </AuthRoute>
-                  }
-                />
-                <Route
-                  path="/signup"
-                  element={
-                    <AuthRoute>
-                      <SignUp />
-                    </AuthRoute>
-                  }
-                />
-                <Route
-                  path="/forgot"
-                  element={
-                    <AuthRoute>
-                      <ForgotPassword />
-                    </AuthRoute>
-                  }
-                />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/forgot" element={<ForgotPassword />} />
               </Routes>
             </div>
             <Footer />

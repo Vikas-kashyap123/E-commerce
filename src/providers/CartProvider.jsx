@@ -1,32 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getCart, getProductsByIds, saveCart } from "../api";
 import { CartContext } from "../Contexts";
 
-function CartProvider({ children }) {
-  const savedDataString = localStorage.getItem("my-cart") || "{}";
-  const savedData = JSON.parse(savedDataString);
+import { withUser } from "../withProvider";
 
-  const [cart, setCart] = useState(savedData);
+function CartProvider({ isLoggedIn, children }) {
+  const [cart, setCart] = useState([]);
+  
+
+  useEffect(function () {
+    if (isLoggedIn) {
+      getCart().then(function (savedCart) {
+        setCart(savedCart);
+        // setLoading(false);
+      });
+    } else {
+      const savedDataString = localStorage.getItem("my-cart") || "{}";
+      const savedData = JSON.parse(savedDataString);
+      quantityMapToCart(savedData);
+      // setLoading(false);
+    }
+  }, []);
+
+  // if (loading) {
+  //   return <Loading />;
+  // }
+
+  function quantityMapToCart(quantityMap) {
+    getProductsByIds(Object.keys(quantityMap)).then(function (products) {
+      const savedCart = products.map((p) => ({
+        product: p,
+        quantity: quantityMap[p.id],
+      }));
+
+      setCart(savedCart);
+    });
+  }
 
   function addToCart(productId, count) {
-    const oldCount = cart[productId] || 0;
-    const newCart = { ...cart, [productId]: oldCount + count };
+    const quantityMap = cart.reduce(
+      (m, cartItem) => ({ ...m, [cartItem.product.id]: cartItem.quantity }),
+      {}
+    );
+
+    const oldCount = quantityMap[productId] || 0;
+
+    const newCart = { ...quantityMap, [productId]: oldCount + count };
     updateCart(newCart);
   }
-  function updateCart(newCart) {
-    setCart(newCart);
-    const cartString = JSON.stringify(newCart);
-    localStorage.setItem("my-cart", cartString);
+
+  function updateCart(quantityMap) {
+    if (isLoggedIn) {
+      saveCart(quantityMap).then(function (response) {
+        //   setCart(response);
+        quantityMapToCart(quantityMap);
+      });
+    } else {
+      const quantityMapString = JSON.stringify(quantityMap);
+      localStorage.setItem("my-cart", quantityMapString);
+      quantityMapToCart(quantityMap);
+    }
   }
 
-  const totalCount = Object.keys(cart).reduce(function (previous, current) {
-    return previous + cart[current];
+  const cartCount = cart.reduce(function (previous, current) {
+    return previous + current.quantity;
   }, 0);
 
   return (
-    <CartContext.Provider value={{ cart, totalCount, updateCart, addToCart }}>
+    <CartContext.Provider value={{ cart, cartCount, updateCart, addToCart }}>
       {children}
     </CartContext.Provider>
   );
 }
 
-export default CartProvider;
+export default withUser(CartProvider);
+// getCart().then(function (savedCart)

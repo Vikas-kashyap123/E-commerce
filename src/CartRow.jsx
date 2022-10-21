@@ -1,79 +1,62 @@
 import React from "react";
+import { CiCircleRemove } from "react-icons/ci";
 
-import { withCart } from "./withProvider";
-
-function CartRow({
-  thumbnail,
-  title,
-  price,
-  id,
-  localCart,
-  setLocalCart,
-  cart,
-  updateCart,
-}) {
-  function handleDelete(event) {
-    const productId = event.currentTarget.getAttribute("productid");
-    console.log("product going to be removed is", productId);
-
-    const newCart = { ...cart };
-    delete newCart[productId];
-    updateCart(newCart);
+function CartRow({ product, quantity, onQuantityChange, onRemove }) {
+  function handleChange(event) {
+    onQuantityChange(product.id, +event.target.value);
   }
 
-  const data = {};
+  function handleCrossClick() {
+    onRemove(product.id);
+  }
 
-  function handleChange(event) {
-    const newValue = +event.target.value;
-    const productId = event.target.getAttribute("productid");
-    const newLocalCart = { ...localCart, [productId]: newValue };
-    setLocalCart(newLocalCart);
-    console.log("handleChange", newValue, productId);
+  function handleMouseEnter() {
+    console.log("handleMouseEnter called");
   }
 
   return (
-    <div className="flex-col items-center justify-between max-w-5xl px-4 py-2 mx-auto my-2 font-bold bg-white md:border md:flex md:flex-row border-gray-default">
-      <div className="flex items-center justify-between h-10 px-2 border border-gray-default md:border-white">
+    <div className="flex flex-col px-2 py-2 font-bold border md:justify-between text-md text-gray-light border-gray-default md:px-4 md:items-center md:space-x-4 md:flex-row">
+      <div className="flex justify-between py-2 mx-2 border md:block border-gray-default md:border-none">
         <span></span>
-        <button
-          productid={id}
-          onClick={handleDelete}
-          className="text-gray-500 md:w-16 hover:text-primary-dark"
-        >
-          X
-        </button>
+        <span className="flex items-center w-10 h-10">
+          <CiCircleRemove
+            className="text-2xl"
+            onClick={handleCrossClick}
+            onMouseEnter={handleMouseEnter}
+          />
+        </span>
       </div>
-      <div className="flex items-center justify-center mx-auto w-14 h-14 md:mr-16 sm:hidden md:block">
-        <img className="w-full h-full " src={thumbnail} />
+      <div className="flex items-center justify-center py-2 mx-2 border md:py-0 md:border-none sm:hidden md:block border-gray-default border-y-none md:mx-auto md:w-20 md:h-20">
+        <img
+          className="w-16 h-16 md:object-cover md:w-full md:h-full "
+          src={product.thumbnail}
+        />
       </div>
-      <div className="flex items-center justify-between h-10 px-2 border border-gray-default md:border-white ">
-        <h1 className=" md:hidden">Product</h1>
-        <h1 className="max-w-32 md:w-72 text-primary-default md:mr-4">
-          {title}
-        </h1>
+      <div className="flex justify-between px-2 py-2 mx-2 border md:block md:border-none border-gray-default">
+        <div className="font-bold text-gray-light md:hidden">Product</div>
+        <div className="md:grow text-primary-default">{product.title}</div>
       </div>
-      <div className="flex items-center justify-between h-10 px-2 border border-gray-default md:border-white">
-        <h1 className=" md:hidden">price</h1>
-        <h2 className="md:w-24 ">{price}</h2>
+      <div className="flex justify-between px-2 py-2 mx-2 border md:px-none md:flex-none md:py-none mx:mx-none md:block md:border-none border-gray-default">
+        <div className="font-bold md:hidden">Price</div>
+        <div className="w-12 md:pl-40 md:w-20">${product.price}</div>
       </div>
-      <div className="flex items-center justify-between h-10 px-2 border border-gray-default md:border-white">
-        <div className=" md:hidden">Quantity</div>
-        <div className="w-6 md:w-28">
+      <div className="flex justify-between px-2 py-2 mx-2 border md:flex-none md:py-none md:mx-none md:border-none border-gray-default">
+        <div className="font-bold md:hidden">Quantity</div>
+        <div className="w-12 md:w-32">
           <input
             type="number"
-            productid={id}
+            className="w-8 px-2 border rounded-md border-gray-default md:w-12 md:p-1 md:mx-2"
+            value={quantity}
             onChange={handleChange}
-            value={localCart[id]}
-            className="w-6 h-6 border md:w-10 md:h-10 border-gray"
           />
         </div>
       </div>
-      <div className="flex items-center justify-between h-10 px-2 border border-gray-default md:border-white">
-        <h2 className=" md:hidden">subtotal</h2>
-        <h2 className="md:w-28">{price * cart[id]}</h2>
+      <div className="flex justify-between px-2 py-2 mx-2 border md:mx-none md:py-none md:border-none border-gray-default">
+        <span className="font-bold md:hidden">Subtotal</span>
+        <span className="w-12 md:w-20">${product.price * quantity}</span>
       </div>
     </div>
   );
 }
 
-export default withCart(CartRow);
+export default CartRow;
