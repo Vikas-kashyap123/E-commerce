@@ -2,7 +2,7 @@ import React from "react";
 import { withFormik } from "formik";
 import Button from "./Button";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Input from "./Input";
 
 import axios from "axios";
@@ -52,12 +52,11 @@ export function SignUp({
   handleChange,
   handleBlur,
   user,
+  isLoggedIn,
 }) {
-  // const user = useContext(loginUserContext)
-  // console.log("data in props", values, errors);
-  // if (user) {
-  //   return <Navigate to="/" />;
-  // }
+  if (isLoggedIn) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="h-full max-w-6xl mx-auto mt-4 text-2xl bg-white md:mt-16 ">
