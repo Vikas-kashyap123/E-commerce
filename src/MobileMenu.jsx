@@ -42,20 +42,20 @@ function MobileMenu({ setUser, isLoggedIn }) {
           Account
         </Link>
         {isLoggedIn ? (
-          <a
-            href="login"
+          <Link
+            to="login"
             onClick={handleLogout}
             className="font-black border-indigo-400 border-b-gray-500 hover:text-primary-light text-primary-dark"
           >
             Logout
-          </a>
+          </Link>
         ) : (
-          <a
-            href="login"
+          <Link
+            to="login"
             className="font-black border-indigo-400 border-b-gray-500 hover:text-primary-light text-primary-dark"
           >
             Login
-          </a>
+          </Link>
         )}
       </div>
     </div>
