@@ -10,11 +10,11 @@ import LoginPage from "./LoginPage";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import AlertCard from "./AlertCard";
-// import UserRoute from "./UserRoute";
-// import AuthRoute from "./AuthRoute";
 import UserProvider from "./providers/UserProvider";
 import AlertProvider from "./providers/AlertProvider";
 import CartProvider from "./providers/CartProvider";
+import Contact from "./Contact";
+import Home from "./Home";
 
 function App() {
   return (
@@ -33,6 +33,8 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/forgot" element={<ForgotPassword />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/home" element={<Home />} />
               </Routes>
             </div>
             <Footer />

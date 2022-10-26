@@ -12,7 +12,7 @@ function MobileMenu({ setUser, isLoggedIn }) {
     <div className="">
       <div className="absolute flex flex-col px-3 py-2 space-y-4 overflow-auto bg-indigo-400 border border-indigo-800 rounded-sm md:hidden">
         <Link
-          to="/"
+          to="home"
           className="font-bold border border-indigo-400 hover:text-primary-dark border-b-gray-500"
         >
           Home
@@ -30,13 +30,13 @@ function MobileMenu({ setUser, isLoggedIn }) {
           About
         </Link>
         <Link
-          to="/"
+          to="contact"
           className="font-bold border border-indigo-400 hover:text-primary-dark border-b-gray-500"
         >
           Contact
         </Link>
         <Link
-          to="/login"
+          to="/"
           className="font-bold border border-indigo-400 hover:text-primary-dark border-b-gray-500"
         >
           Account

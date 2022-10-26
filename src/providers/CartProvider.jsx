@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { getCart, getProductsByIds, saveCart } from "../Api";
 import { CartContext } from "../Contexts";
-
 import { withUser } from "../withProvider";
 
 function CartProvider({ isLoggedIn, children }) {
   const [cart, setCart] = useState([]);
 
-  useEffect(function () {
-    if (isLoggedIn) {
-      getCart().then(function (savedCart) {
-        setCart(savedCart);
+  useEffect(
+    function () {
+      if (isLoggedIn) {
+        getCart().then(function (savedCart) {
+          setCart(savedCart);
+          // setLoading(false);
+        });
+      } else {
+        const savedDataString = localStorage.getItem("my-cart") || "{}";
+        const savedData = JSON.parse(savedDataString);
+        quantityMapToCart(savedData);
         // setLoading(false);
-      });
-    } else {
-      const savedDataString = localStorage.getItem("my-cart") || "{}";
-      const savedData = JSON.parse(savedDataString);
-      quantityMapToCart(savedData);
-      // setLoading(false);
-    }
-  }, []);
+      }
+    },
+    [isLoggedIn]
+  );
 
   // if (loading) {
   //   return <Loading />;

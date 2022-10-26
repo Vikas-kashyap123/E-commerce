@@ -15,7 +15,7 @@ function Navbar({ cartCount, setUser, isLoggedIn }) {
     {
       id: 1,
       link: "Home",
-      Route: "/",
+      Route: "home",
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ function Navbar({ cartCount, setUser, isLoggedIn }) {
     {
       id: 4,
       link: "Contact",
-      Route: "/",
+      Route: "contact",
     },
     {
       id: 5,
